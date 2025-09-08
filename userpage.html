@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetCare User Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 'Inter' and 'Poppins' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            background-image: 
+                linear-gradient(rgba(243, 244, 246, 0.9), rgba(243, 244, 246, 0.9)), 
+                url('https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .hero-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom styles to ensure readability on top of the background image */
+        .card, .navbar {
+            background-color: white; /* Ensure cards and navbar have a solid background */
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* New animations */
+        @keyframes slide-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slide-in-right {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes slide-in-down {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animate the main page sections */
+        .animated-navbar {
+            animation: slide-in-up 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animated-main-content {
+            animation: slide-in-right 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .animated-footer {
+            animation: slide-in-up 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .dashboard-card {
+            transition: transform 0.3s ease-in-out;
+            opacity: 0; /* Initial state */
+            animation: slide-in-down 0.6s ease-out forwards;
+        }
+        
+        /* Custom card background colors */
+        .events-card {
+            background-image: linear-gradient(to bottom right, #6b46c1, #9f7aea);
+        }
+        .pets-card {
+            background-image: linear-gradient(to bottom right, #38b2ac, #4fd1c5);
+        }
+        .products-card {
+            background-image: linear-gradient(to bottom right, #f56565, #f687b3);
+        }
+        .booking-card {
+            background-image: linear-gradient(to bottom right, #4299e1, #63b3ed);
+        }
+        
+        /* New color classes for Navbar and Footer */
+        .navbar-colored {
+            background-image: linear-gradient(to right, #4c51bf, #667eea);
+        }
+        .footer-colored {
+            background-image: linear-gradient(to right, #2d3748, #4a5568);
+        }
+
+        /* Staggered animation delays */
+        nav { animation-delay: 0.2s; }
+        .animated-main-content { animation-delay: 0.4s; }
+        .dashboard-card:nth-child(1) { animation-delay: 0.8s; }
+        .dashboard-card:nth-child(2) { animation-delay: 1.0s; }
+        .dashboard-card:nth-child(3) { animation-delay: 1.2s; }
+        .dashboard-card:nth-child(4) { animation-delay: 1.4s; }
+        .animated-footer { animation-delay: 1.6s; }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex flex-col items-center py-8 px-4 md:px-8">
+
+        <!-- Header/Navbar -->
+        <nav class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-center py-4 md:py-6 px-6 md:px-10 rounded-xl shadow-lg mb-8 md:mb-16 animated-navbar navbar-colored text-white">
+            <!-- Left-aligned links -->
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <img src="https://placehold.co/40x40/E2E8F0/A0AEC0?text=Logo" alt="Pet logo" class="h-8 w-8 rounded-full mr-2">
+                <span class="text-2xl font-bold">About Pet</span>
+            </div>
+
+            <!-- Center-aligned links (hidden on small screens) -->
+            <div class="hidden md:flex flex-wrap items-center justify-center flex-1 space-x-6">
+                <a href="event3.html" class="hover:text-gray-200 transition duration-300">Events</a>
+                <a href="#" class="hover:text-gray-200 transition duration-300">Booking</a>
+                <a href="Pet.html" class="hover:text-gray-200 transition duration-300">Pets</a>
+                <a href="Product.html" class="hover:text-gray-200 transition duration-300">Products</a>
+            </div>
+
+            <!-- Right-aligned buttons -->
+            <div class="flex items-center space-x-4">
+                <button id="profile-button" class="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                    Profile
+                </button>
+                <a href="index.html" class="bg-gray-300 text-gray-800 px-6 py-2 rounded-full font-semibold shadow-md hover:bg-gray-400 transition duration-300 ease-in-out">
+                    Sign Out
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Content -->
+        <main class="w-full max-w-6xl p-8 bg-white rounded-xl shadow-lg animated-main-content">
+
+            <!-- Banner Slider Section -->
+            <section class="mb-8">
+                <div id="slider-container" class="w-full overflow-hidden relative rounded-xl shadow-lg">
+                    <!-- Slider images container -->
+                    <div id="slides" class="flex transition-transform duration-500 ease-in-out">
+                        <!-- Slide 1 -->
+                        <div class="flex-none w-full">
+                            <img class="w-full h-48 md:h-64 object-cover rounded-xl" src="https://media.istockphoto.com/id/1323523179/photo/art-collage-made-of-funny-dog-isolated-over-white-studio-background.jpg?s=2048x2048&w=is&k=20&c=wiVeztbOaAhDFICd_Bk1eeQ3_HKmGaiqIVRNP1MkXGM=" alt="Vet caring for a cat.">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="flex-none w-full">
+                            <img class="w-full h-48 md:h-64 object-cover rounded-xl" src="https://media.istockphoto.com/id/157619909/photo/rabbits-holding-a-banner.jpg?s=2048x2048&w=is&k=20&c=4rmScEa_cO-E8-yKnb71qt6-8BHWkZLGUetVrd-ICz0=" alt="Happy dog with a pet sitter.">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="flex-none w-full">
+                            <img class="w-full h-48 md:h-64 object-cover rounded-xl" src="https://media.istockphoto.com/id/891344854/photo/dog-diving-underwater-in-swimming-pool.jpg?s=2048x2048&w=is&k=20&c=ObRgVQQESmQe8jZtTagHeBqTsh1CZC-AQhaLA6dZrqc=" alt="Cute kitten playing with a toy.">
+                        </div>
+                    </div>
+
+                    <!-- Previous button -->
+                    <button id="prev-button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-lg hover:bg-opacity-75 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Next button -->
+                    <button id="next-button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-lg hover:bg-opacity-75 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dots container -->
+                    <div id="dots-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                        <!-- Dots will be generated here by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Your Dashboard</h1>
+            <p class="text-gray-600 text-lg">
+                Welcome back! This is where you can manage your pet's information, bookings, and more.
+            </p>
+            
+            <!-- Dashboard Sections -->
+            <section class="mt-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                    <!-- Events Section -->
+                    <div class="dashboard-card events-card p-6 rounded-3xl shadow-md flex flex-col md:flex-row items-center gap-6 text-white">
+                        <video src="dogrun.mp4" autoplay muted loop playsinline class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg"></video>
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl font-semibold mb-2">Events</h3>
+                            <p class="text-sm">
+                                Explore a calendar of upcoming pet-friendly events in your community. From charity walks and adoption days to training workshops, find new ways to connect with fellow pet lovers and help your furry friend socialize.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pets Section -->
+                    <div class="dashboard-card pets-card p-6 rounded-3xl shadow-md flex flex-col md:flex-row items-center gap-6 text-white">
+                        <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=2000&auto=format&fit=crop" alt="Pets profile" class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl font-semibold mb-2">Pets</h3>
+                            <p class="text-sm">
+                                Keep track of your pet's health information, vaccination history, and important documents. Create and manage individual profiles for each of your pets to ensure they get the best care possible.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Products Section -->
+                    <div class="dashboard-card products-card p-6 rounded-3xl shadow-md flex flex-col md:flex-row items-center gap-6 text-white">
+                        <img src="https://media.istockphoto.com/id/1320314988/photo/flat-lay-composition-with-different-pet-toys-and-feeding-bowl-on-wooden-background.jpg?s=2048x2048&w=is&k=20&c=rgcW2xjugcx5dBM0G7WxAtCSKmedINm_VYbcuEpJvQQ=" alt="Pet products" class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl font-semibold mb-2">Products</h3>
+                            <p class="text-sm">
+                                Browse our curated selection of high-quality pet products. Find everything from nutritious food and fun toys to comfortable beds and essential grooming supplies to keep your pet happy and healthy.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Booking Section -->
+                    <div class="dashboard-card booking-card p-6 rounded-3xl shadow-md flex flex-col md:flex-row items-center gap-6 text-white">
+                        <img src="https://media.istockphoto.com/id/485428186/photo/veterinary-doctor-does-medical-examination-on-a-yellow-labrador-retriever.jpg?s=2048x2048&w=is&k=20&c=uTKpWHguN9EiayPIifHHwBGSjcERl9NJpT_QfG4dO0s=" alt="Booking appointment" class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg">
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl font-semibold mb-2">Booking</h3>
+                            <p class="text-sm">
+                                Easily schedule and manage appointments with your veterinarian, groomer, or a pet trainer. View your upcoming appointments and get reminders so you never miss a visit.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Profile Modal -->
+        <div id="profile-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 hidden">
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-sm transform transition-all scale-95 md:scale-100">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Edit Profile Picture</h2>
+                <div class="flex flex-col items-center mb-6">
+                    <img id="profile-pic" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover mb-4 border-4 border-gray-200" src="https://placehold.co/128x128/E2E8F0/A0AEC0?text=Profile" alt="Profile Picture">
+                    <input type="file" id="profile-pic-input" accept="image/*" class="hidden">
+                    <button id="change-pic-button" class="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                        Change Picture
+                    </button>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button id="cancel-profile-modal" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-full font-semibold hover:bg-gray-400">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="w-full text-center text-gray-500 text-sm py-4 bg-transparent mt-8 animated-footer">
+            <div class="w-full max-w-6xl mx-auto py-4 md:py-6 px-6 md:px-10 rounded-xl shadow-lg footer-colored text-white">
+                <p class="mb-2">&copy; 2024 VetCare. All rights reserved.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#" class="hover:text-gray-300 transition-colors">About Us</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Contact</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Get references to elements
+        const profileButton = document.getElementById('profile-button');
+        const profileModal = document.getElementById('profile-modal');
+        const cancelModalButton = document.getElementById('cancel-profile-modal');
+        const changePicButton = document.getElementById('change-pic-button');
+        const profilePicInput = document.getElementById('profile-pic-input');
+        const profilePic = document.getElementById('profile-pic');
+        
+        // --- Slider JavaScript ---
+        const slidesContainer = document.getElementById('slides');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const dotsContainer = document.getElementById('dots-container');
+        const slides = slidesContainer.querySelectorAll('div');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let autoSlideInterval;
+        
+        // Function to update the slider position
+        function updateSlider() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            updateDots();
+        }
+
+        // Function to update dot indicators
+        function updateDots() {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('block', 'w-3', 'h-3', 'rounded-full', 'cursor-pointer', 'transition-colors');
+                dot.classList.add(i === currentSlide ? 'bg-indigo-600' : 'bg-gray-400', 'hover:bg-indigo-400');
+                dot.onclick = () => {
+                    currentSlide = i;
+                    updateSlider();
+                    resetAutoSlide();
+                };
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        // Function to go to the next slide
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        // Function to go to the previous slide
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+        
+        // Set up event listeners for buttons
+        nextButton.addEventListener('click', () => {
+            nextSlide();
+            resetAutoSlide();
+        });
+        prevButton.addEventListener('click', () => {
+            prevSlide();
+            resetAutoSlide();
+        });
+        
+        // Function to start and reset the auto-slide timer
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000); // 5-second interval
+        }
+
+        // Initial setup
+        updateSlider();
+        resetAutoSlide();
+
+        // --- Profile Modal JavaScript ---
+        // Show the modal when the Profile button is clicked
+        profileButton.addEventListener('click', () => {
+            profileModal.classList.remove('hidden');
+        });
+
+        // Hide the modal when the cancel button is clicked
+        cancelModalButton.addEventListener('click', () => {
+            profileModal.classList.add('hidden');
+        });
+
+        // Trigger file input when "Change Picture" is clicked
+        changePicButton.addEventListener('click', () => {
+            profilePicInput.click();
+        });
+
+        // Handle file selection and update the profile picture
+        profilePicInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profilePic.src = e.target.result;
+                    // In a real application, you would now save this to a database
+                    // and handle the file upload.
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+</body>
+</html>

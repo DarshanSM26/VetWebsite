@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Entity</title>
+    <style>
+        .ul{
+            text-align:center;
+        }
+        .a:hover{
+            color:white;
+        }
+        button:hover{
+            background-color:grey;
+            cursor:pointer;
+        }
+        @keyframes slide{
+            from{
+                transform:translateX(0);
+            }
+            to{
+                transform:translateX(90px);
+            }
+        }
+    </style>
+</head>
+<body style="object-fit:cover;background:linear-gradient(rgba(128,128,128,0.5),rgba(128,128,128,0.5)),url('backgroundimage.jpg') no-repeat bottom center fixed;background-color:grey;background-size:cover;margin:0;padding:0;background-repeat:no-repeat;">
+
+<!-- Sidebar Navigation -->
+<nav style="position:fixed;height:100%;border-radius:15px;width:90px;background:lightblue;" >
+    <ul class="ul" style="list-style-type:none;margin:0;padding:0;width:90px;background-color:#f1f1f1;border-radius:15px;height:50px;">
+        <li><a href="entity.html"><img src="home_18194528.png" style="width:29px;"></a></li>
+        <li class="a"><a href="event.html"><img src="appointment_2358485.png" style="width:29px;"></a></li>
+        <li class="a"><a href="Myevents.html"><img src="pets_4281128.png" style="width:29px;"></a></li>
+        <li class="a"><a href="host.html"><img src="virtual-event_18574606.png" style="width:29px;"></a></li>
+        <li class="a"><a href="History.html"><img src="time_15490037.png" style="width:29px;"></a></li>
+    </ul>
+</nav>
+
+<!-- Banner -->
+<img src="front-view-cute-dogs-costumes.jpg" style="height:310px;width:100%;border-radius:15px;object-fit:cover;">
+
+<!-- Scrolling Info -->
+<div class="row" style="border-radius:15px;height:50px;padding:10px;margin-left:120px;background-color:rgb(172,216,230,0.5);">
+    <div class="col" style="animation:slide 39s infinite alternate;font-size:14px;font-family:fantasy;">
+        🐾 Pet Care Carnival – Adoption, Games & Free Health Checkups | ⚽ Sports Fest – Football, Cricket & More | 🎭 Cultural Night – Music, Dance & Drama | 🌍 Community Meet – Volunteer & Make a Difference!
+    </div>
+</div>
+<br>
+
+<!-- Event Section -->
+<div class="row" style="border-radius:90px;height:900px;padding:10px;margin-left:120px;margin-right:10px;background-color:rgb(172,200,230,0.5);">
+
+    <div class="row" style="border-radius:90px;height:900px;background-image:url('8595474.jpg');background-repeat:no-repeat;background-size:1400px 900px;background-attachment:fixed;">
+
+        <!-- Event 1 -->
+        <div style="border-radius:15px;height:330px;margin-bottom:20px;width:550px;margin-left:290px;margin-top:30px;padding:1.5px;background:rgb(173,216,230,0.5);">
+            <p style="font-family:'fantasy';padding:15px;">📌 Adoption Drive</p>
+            <p id="event_name1">Event Name: Mega Pet Adoption Drive</p>
+            <p id="date1">Date: 15th Sept 2025, Sunday</p>
+            <p id="time1">Time: 10:00 AM – 5:00 PM</p>
+            <p id="location1">Location: Central Park Community Hall</p>
+            <p>Details: Join us for the city’s largest adoption event. Meet dogs, cats, and rescued pets looking for homes. Free vet consultation and starter kits for adopters.</p>
+            <button onclick="demo('event_name1','date1','time1','location1')" style="border-radius:50px;">Register Now</button>
+        </div>
+
+        <!-- Event 2 -->
+        <div style="border-radius:15px;height:330px;margin-bottom:20px;width:350px;margin-left:455px;margin-top:-349px;padding:1.5px;background:rgb(173,216,230,0.5);">
+            <p style="padding:15px;">📌 Pet Sports Day</p>
+            <p id="event_name2">Event Name: Pet Olympics 2025</p>
+            <p id="date2">Date: 20th Sept 2025</p>
+            <p id="time2">Time: 9:00 AM – 4:00 PM</p>
+            <p id="location2">Location: City Stadium Grounds</p>
+            <p>Details: From dog races to agility contests, enjoy a fun-filled day of pet sports. Exciting prizes, participation certificates, and food stalls available.</p>
+            <button onclick="demo('event_name2','date2','time2','location2')" style="border-radius:50px;">Join Event</button>
+        </div>
+
+        <!-- Event 3 -->
+        <div style="border-radius:15px;height:330px;margin-bottom:20px;width:900px;margin-left:-100px;margin-top:-25px;padding:1.5px;background:rgb(173,216,230,0.5);">
+            <p style="padding:15px;">📌 Pet Fashion Show</p>
+            <p id="event_name3">Event Name: Glamour Paws – Fashion Show</p>
+            <p id="date3">Date: 25th Sept 2025</p>
+            <p id="time3">Time: 6:00 PM – 9:00 PM</p>
+            <p id="location3">Location: Pet Care Network Auditorium</p>
+            <p>Details: Dress your pets in creative costumes and walk the ramp. Special categories for dogs, cats, and exotic pets. Celebrity judges & prizes!</p>
+            <button onclick="demo('event_name3','date3','time3','location3')" style="border-radius:50px;">Register Pet</button>
+        </div>
+    </div>
+</div>
+
+<!-- Event 4 -->
+<div class="row" style="border-radius:90px;height:900px;padding:9px;margin-left:120px;margin-right:10px;background-color:rgb(172,200,230,0.5);">
+    <div class="row" style="border-radius:90px;height:900px;background-image:url('backgroundimage.jpg');background-repeat:no-repeat;background-size:1400px 900px;background-attachment:fixed;margin-top:5px;">
+
+        <div style="border-radius:90px;height:330px;margin-bottom:20px;width:550px;margin-left:110px;margin-top:5px;padding:5px;background:rgb(173,216,230,0.5);">
+            <p style="font-family:'fantasy';padding:15px;">📌 Event 4: Pet Grooming Workshop</p>
+            <p id="event_name4">Event Name: Pet Grooming Workshop</p>
+            <p id="date4">Date: 28th Sept 2025</p>
+            <p id="time4">Time: 2:00 PM – 6:00 PM</p>
+            <p id="location4">Location: Happy Paws Pet Spa, Downtown</p>
+            <p>Details: Learn grooming techniques, nail trimming, and coat care from professionals.</p>
+            <button onclick="demo('event_name4','date4','time4','location4')" style="border-radius:50px;">Register Now</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer style="background-color:rgb(172,216,230,0.5);height:599px;border-radius:15px;">
+    <div>
+        <p style="margin-left:100px;">
+            About Us<br><br>
+            PetCare Community connects pet lovers through events, adoption drives, and awareness programs. Our mission is to promote responsible pet ownership and animal welfare.<br><br>
+            Quick Links<br><br>
+            Home | Events | Adoption | Contact Us | FAQs<br><br>
+            Contact Information<br><br>
+            📍 Address: Central Park, Bangalore, India<br><br>
+            📞 Phone: +91 98765 43210<br><br>
+            📧 Email: support@petcarecommunity.com<br><br>
+            Follow Us<br><br>
+            Facebook | Instagram | Twitter | YouTube<br><br>
+            Disclaimer: © 2025 PetCare Community. All Rights Reserved.<br>
+        </p>
+    </div>
+</footer>
+
+<!-- Script -->
+<script>
+function parseDateToISO(dateStr) {
+  dateStr = dateStr.replace(/(\d+)(st|nd|rd|th)/, "$1");
+  dateStr = dateStr.split(",")[0].trim();
+  const parsed = new Date(dateStr);
+  if (isNaN(parsed.getTime())) return null;
+  const y = parsed.getFullYear();
+  const m = String(parsed.getMonth() + 1).padStart(2, "0");
+  const d = String(parsed.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function demo(eventId, dateId, timeId, locationId) {
+  const eventName = document.getElementById(eventId).innerText.replace("Event Name: ","");
+  const dateStr   = document.getElementById(dateId).innerText.replace("Date: ","");
+  const time      = document.getElementById(timeId).innerText.replace("Time: ","");
+  const location  = document.getElementById(locationId).innerText.replace("Location: ","");
+
+  const isoDate = parseDateToISO(dateStr);
+  const payload = {
+    event_name: eventName,
+    price: 600.0,
+    location: location,
+    time: time,
+    date: isoDate
+  };
+
+  console.log("Posting payload:", payload);
+
+  fetch("http://localhost:8080/event/insertevents", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("HTTP error " + res.status);
+    return res.json();
+  })
+  .then(data => {
+    alert("✅ Event booked successfully: " + eventName);
+    console.log("Saved event:", data);
+  })
+  .catch(err => {
+    alert("❌ Failed to book event! Check console.");
+    console.error(err);
+  });
+}
+</script>
+
+</body>
+</html>

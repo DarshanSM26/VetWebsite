@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetCare: Your Pet's Health Partner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for 'Poppins' and 'Inter' -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            background-image: 
+                linear-gradient(rgba(243, 244, 246, 0.9), rgba(243, 244, 246, 0.9)), 
+                url('https://images.unsplash.com/photo-1543852786-1cf66244b9987?q=80&w=2000&auto=format&fit=crop'),
+                url('https://media.istockphoto.com/id/1398810303/photo/happy-dog-of-welsh-corgi-pembroke-breed-among-fallen-leaves-in-autumn.jpg?s=2048x2048&w=is&k=20&c=-1CeHX5Zt-Wuf06a_oI4Pfu3j7GfaNHPnIPAnpchMEU=');
+            background-size: cover, 50% 100%, 50% 100%;
+            background-position: center, left, right;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .hero-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom styles to ensure readability on top of the background image */
+        .card, .navbar {
+            background-color: white; /* Ensure cards and navbar have a solid background */
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* CSS for the staggered left-to-right animation */
+        @keyframes slide-in-right {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* CSS for the new right-to-left animation */
+        @keyframes slide-in-left {
+            0% {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* CSS for the new top-to-bottom animation */
+        @keyframes slide-in-down {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animate the main page sections */
+        .animated-section-right {
+            animation: slide-in-right 0.6s ease-out forwards;
+            opacity: 0; /* Hides the sections initially */
+        }
+
+        .animated-section-left {
+            animation: slide-in-left 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animated-section-down {
+            animation: slide-in-down 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Stagger the animation delay for each major section */
+        nav { animation-delay: 0.2s; }
+        .hero-content { animation-delay: 0.4s; }
+        .hero-image-left { animation-delay: 0.6s; }
+        .hero-image-right { animation-delay: 0.8s; }
+        .services-section { animation-delay: 1.0s; }
+        .services-card-1 { animation-delay: 1.2s; }
+        .services-card-2 { animation-delay: 1.4s; }
+        .services-card-3 { animation-delay: 1.6s; }
+        .services-card-4 { animation-delay: 1.8s; }
+        footer { animation-delay: 2.0s; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Main Container -->
+    <div id="app-container" class="min-h-screen flex flex-col items-center justify-start py-8 md:py-16 bg-transparent">
+
+        <!-- Home Page (Initial View) -->
+        <div id="home-page" class="w-full max-w-6xl px-4 md:px-8 transition-opacity duration-500 ease-in-out">
+            <!-- Header/Navbar -->
+            <nav class="flex justify-between items-center py-4 md:py-6 px-6 md:px-10 bg-white rounded-xl shadow-lg mb-8 md:mb-16 navbar animated-section-right">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-gray-800">PetPalace</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-gray-600">
+                    <a href="#home-page" class="hover:text-indigo-600 transition duration-300">Home</a>
+                    <a href="#" class="hover:text-indigo-600 transition duration-300">About Us</a>
+                    <a href="#" class="hover:text-indigo-600 transition duration-300">Contact</a>
+                </div>
+                <a href="login.html" class="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                    Login / Sign Up
+                </a>
+            </nav>
+            
+            <!-- Hero Section -->
+            <header class="mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-center lg:space-x-12">
+                <div class="flex-1 hidden md:flex items-center justify-center animated-section-right hero-image-left">
+                    <img src="cat_dog.gif" alt="A cute dog gif" class="w-40 md:w-60 h-auto rounded-3xl shadow-2xl">
+                </div>
+                <div class="flex-1 text-center mb-8 lg:mb-0 animated-section-down hero-content">
+                    <h1 class="hero-heading text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-4">
+                        Compassionate Care for Your Furry Family
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 mb-8">
+                        We provide top-tier veterinary services to ensure your pets live their happiest, healthiest lives. From routine check-ups to emergency care, we're here for you.
+                    </p>
+                    <a href="updatedversion.html" class="inline-block bg-indigo-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-indigo-600 transition duration-300 transform hover:scale-105">
+                        Get Started Now
+                    </a>
+                </div>
+                <div class="flex-1 hidden md:flex items-center justify-center animated-section-left hero-image-right">
+                    <img src="cat_dog.gif" alt="A cute cat gif" class="w-40 md:w-60 h-auto rounded-3xl shadow-2xl">
+                </div>
+            </header>
+
+            <!-- Services Section -->
+            <section class="mb-16 md:mb-24 services-section animated-section-right">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Our Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Pet Card -->
+                    <div class="card bg-white p-6 rounded-3xl shadow-md transition transform hover:scale-105 duration-300 services-card-1">
+                        <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-500 rounded-full mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 100 4m-2 2a2 2 0 104 0m0 0a2 2 0 104 0m0 0a2 2 0 10-4 0m-2 2a2 2 0 104 0m0 0a2 2 0 104 0M10 14h.01M15 14h.01M10 19h.01M15 19h.01M13 21v-2m0-4v-2m0-4v-2m0-4v-2" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center mb-2 text-gray-900">Find a Pet</h3>
+                        <p class="text-gray-600 text-center text-sm">Discover a wide variety of pets ready for their forever homes. Find the perfect companion.</p>
+                    </div>
+                    <!-- Products Card -->
+                    <div class="card bg-white p-6 rounded-3xl shadow-md transition transform hover:scale-105 duration-300 services-card-2">
+                        <div class="flex items-center justify-center h-16 w-16 bg-green-100 text-green-500 rounded-full mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.198 1.706.705 1.706H17m-8 2a2 2 0 100 4m-4 0a2 2 0 100 4m7-4a2 2 0 100 4" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center mb-2 text-gray-900">Shop Products</h3>
+                        <p class="text-gray-600 text-center text-sm">Shop for the best food, toys, and accessories to keep your pet happy and healthy.</p>
+                    </div>
+                    <!-- Appointment Card -->
+                    <div class="card bg-white p-6 rounded-3xl shadow-md transition transform hover:scale-105 duration-300 services-card-3">
+                        <div class="flex items-center justify-center h-16 w-16 bg-red-100 text-red-500 rounded-full mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M14 11h.01M19 11h.01M5 15h.01M10 15h.01M19 15h.01M13 18h.01M18 18h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center mb-2 text-gray-900">Book Appointment</h3>
+                        <p class="text-gray-600 text-center text-sm">Schedule vet visits, grooming, or training with our easy-to-use online booking system.</p>
+                    </div>
+                    <!-- Events Card -->
+                    <div class="card bg-white p-6 rounded-3xl shadow-md transition transform hover:scale-105 duration-300 services-card-4">
+                        <div class="flex items-center justify-center h-16 w-16 bg-yellow-100 text-yellow-500 rounded-full mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center mb-2 text-gray-900">Upcoming Events</h3>
+                        <p class="text-gray-600 text-center text-sm">Join us for community events like pet adoption days, charity walks, and workshops.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="animated-section-right w-full text-center text-gray-500 text-sm py-4 bg-transparent">
+                <p class="mb-2">&copy; 2024 VetCare. All rights reserved.</p>
+                <div class="flex justify-center space-x-4 text-gray-600">
+                    <a href="#" class="hover:text-indigo-600 transition-colors">About Us</a>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Contact</a>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Terms of Service</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

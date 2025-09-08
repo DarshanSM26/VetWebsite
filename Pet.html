@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(135deg,#a18cd1,#fbc2eb);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #fff !important;
+    }
+    .nav-btn {
+      background: #fff;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      margin-left: 0.8rem;
+      transition: all .3s;
+    }
+    .nav-btn:hover {
+      background: #fbc2eb;
+      color: #fff;
+    }
+
+    /* Hero with Wave */
+    .hero {
+          position: relative;
+          background: url('pet_1.jpg') center/cover no-repeat;
+          color: #fff;
+          padding: 6rem 2rem 10rem;
+          text-align: center;
+          overflow: hidden;
+          margin-top: 20px;   /* ✅ This adds the gap */
+        }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('https://svgshare.com/i/uGk.svg') no-repeat center;
+      background-size: cover;
+    }
+    .hero h1 {
+      font-weight: 800;
+      font-size: 2.8rem;
+    }
+
+    /* Filter Pills */
+    .filter-pill {
+      background: #fff;
+      border-radius: 40px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #fff;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .filter-pill:hover {
+      background: #fbc2eb;
+      color: #fff;
+      box-shadow: inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #fff;
+    }
+
+    /* Neumorphic Cards */
+    .pet-card {
+      border-radius: 20px;
+      background: #f0f2f5;
+      box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .pet-card:hover {
+      transform: translateY(-8px);
+    }
+    .pet-img {
+      border-radius: 16px;
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .pet-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .pet-breed {
+      color: #a18cd1;
+      font-weight: 600;
+    }
+    .pet-price {
+      font-weight: 700;
+      color: #444;
+    }
+    .pet-card-btn {
+      margin-top: 0.5rem;
+      border: none;
+      background: linear-gradient(135deg,#a18cd1,#fbc2eb);
+      color: #fff;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+    }
+
+    /* Trust Section */
+    .trust-box {
+      background: #f0f2f5;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 6px 6px 12px #d1d9e6, -6px -6px 12px #ffffff;
+      text-align: center;
+    }
+    .trust-box i {
+      font-size: 2rem;
+      color: #a18cd1;
+    }
+
+    /* Footer with wave */
+    footer {
+      background: linear-gradient(135deg,#a18cd1,#fbc2eb);
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      margin-top: 4rem;
+    }
+    footer::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: url('https://svgshare.com/i/uGk.svg') no-repeat center;
+      background-size: cover;
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  if (!loggedUser) {
+    window.location.href = "login.html";
+  }
+</script>
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand"><i class="bi bi-paw"></i> VetPawtner</a>
+    <div class="ms-auto">
+      <button class="nav-btn" data-bs-toggle="modal" data-bs-target="#sellPetModal"><i class="bi bi-plus-circle"></i> Sell Pet</button>
+      <button class="nav-btn" onclick="document.getElementById('petsSection').scrollIntoView({behavior:'smooth'})"><i class="bi bi-search"></i> Explore Pets</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Removed text here -->
+</section>
+
+<!-- FILTER BAR -->
+<!-- FILTER BAR -->
+<div class="container my-5 text-center">
+  <div class="d-flex justify-content-center gap-3 flex-wrap">
+    <div class="filter-pill">
+      <img src="cat.png" alt="Cat" style="height:28px;width:28px;"> Cats
+    </div>
+    <div class="filter-pill">
+      <img src="dog.png" alt="Dog" style="height:28px;width:28px;"> Dogs
+    </div>
+    <div class="filter-pill">
+      <i class="bi bi-twitter"></i> Birds
+    </div>
+    <div class="filter-pill">
+      <img src="rabbit.png" alt="Rabbit" style="height:28px;width:28px;"> Rabbits
+    </div>
+  </div>
+</div>
+
+
+<!-- PET LISTINGS -->
+<div class="container my-5" id="petsSection">
+  <h2 class="text-center fw-bold mb-4"><i class="bi bi-paw"></i> Meet Your New Best Friend</h2>
+
+  <div class="row g-4">
+    <!-- First row (3 cards) -->
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="101" data-name="Rocky" data-breed="Labrador" data-price="₹22,000" data-age="5 years" data-gender="Male" data-img="pet_2.jpg">
+        <img src="pet_2.jpg" class="pet-img">
+        <div class="pet-title">Rocky</div>
+        <div class="pet-breed">Labrador</div>
+        <div class="pet-price">₹22,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="102" data-name="Whiskers" data-breed="Persian Cat" data-price="₹9,000" data-age="1 years" data-gender="Female" data-img="pet_3.jpg">
+        <img src="pet_3.jpg" class="pet-img">
+        <div class="pet-title">Whiskers</div>
+        <div class="pet-breed">Persian Cat</div>
+        <div class="pet-price">₹9,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="103" data-name="Coco" data-breed="Pug" data-price="₹15,000" data-age="3 years" data-gender="Male" data-img="pet_4.jpg">
+        <img src="pet_4.jpg" class="pet-img">
+        <div class="pet-title">Coco</div>
+        <div class="pet-breed">Pug</div>
+        <div class="pet-price">₹15,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+
+    <!-- Second row (2 cards) -->
+    <div class="col-md-6">
+      <div class="pet-card" data-pet-id="104" data-name="Simba" data-breed="German Shepherd" data-price="₹28,000" data-age="5 years" data-gender="Male" data-img="pet_5.jpg">
+        <img src="pet_5.jpg" class="pet-img">
+        <div class="pet-title">Simba</div>
+        <div class="pet-breed">German Shepherd</div>
+        <div class="pet-price">₹28,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="pet-card" data-pet-id="105" data-name="Luna" data-breed="Siamese" data-price="₹12,000" data-age="2 years" data-gender="Female" data-img="pet_6.jpg">
+        <img src="pet_6.jpg" class="pet-img">
+        <div class="pet-title">Luna</div>
+        <div class="pet-breed">Siamese</div>
+        <div class="pet-price">₹12,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+
+    <!-- Third row (4 cards) -->
+    <div class="col-md-3">
+      <div class="pet-card" data-pet-id="106" data-name="Snow" data-breed="Rabbit" data-price="₹3,500" data-age="2 years" data-gender="Male" data-img="pet_7.jpg">
+        <img src="pet_7.jpg" class="pet-img">
+        <div class="pet-title">Snow</div>
+        <div class="pet-breed">Rabbit</div>
+        <div class="pet-price">₹3,500</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="pet-card" data-pet-id="107" data-name="Sky" data-breed="Parrot" data-price="₹4,000" data-age="2 years" data-gender="Female" data-img="pet_8.jpg">
+        <img src="pet_8.jpg" class="pet-img">
+        <div class="pet-title">Sky</div>
+        <div class="pet-breed">Parrot</div>
+        <div class="pet-price">₹4,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="pet-card" data-pet-id="108" data-name="Max" data-breed="Bulldog" data-price="₹18,000" data-age="2 years" data-gender="Female" data-img="pet_9.jpg">
+        <img src="pet_9.jpg" class="pet-img">
+        <div class="pet-title">Max</div>
+        <div class="pet-breed">Bulldog</div>
+        <div class="pet-price">₹18,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="pet-card" data-pet-id="109" data-name="Misty" data-breed="Maine Coon" data-price="₹14,000" data-age="2 years" data-gender="Male" data-img="pet_10.jpg">
+        <img src="pet_10.jpg" class="pet-img">
+        <div class="pet-title">Misty</div>
+        <div class="pet-breed">Maine Coon</div>
+        <div class="pet-price">₹14,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+
+    <!-- Fourth row (3 cards) -->
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="110" data-name="Oliver" data-breed="British Shorthair" data-price="₹13,500" data-age="2 years" data-gender="Female" data-img="pet_11.jpg">
+        <img src="pet_11.jpg" class="pet-img">
+        <div class="pet-title">Oliver</div>
+        <div class="pet-breed">British Shorthair</div>
+        <div class="pet-price">₹13,500</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="111" data-name="Bruno" data-breed="Doberman" data-price="₹30,000" data-age="5 years" data-gender="Male" data-img="pet_12.jpg">
+        <img src="pet_12.jpg" class="pet-img">
+        <div class="pet-title">Bruno</div>
+        <div class="pet-breed">Doberman</div>
+        <div class="pet-price">₹30,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="112" data-name="Fluffy" data-breed="Angora Rabbit" data-price="₹5,500" data-age="2 years" data-gender="Female" data-img="pet_13.jpg">
+        <img src="pet_13.jpg" class="pet-img">
+        <div class="pet-title">Fluffy</div>
+        <div class="pet-breed">Angora Rabbit</div>
+        <div class="pet-price">₹5,500</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+
+    <!-- Fifth row (3 cards) -->
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="113" data-name="Oscar" data-breed="Husky" data-price="₹32,000" data-age="2 years" data-gender="Male" data-img="pet_14.jpg">
+        <img src="pet_14.jpg" class="pet-img">
+        <div class="pet-title">Oscar</div>
+        <div class="pet-breed">Husky</div>
+        <div class="pet-price">₹32,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="114" data-name="Chloe" data-breed="Ragdoll" data-price="₹16,000" data-age="1 years" data-gender="Female" data-img="pet_15.jpg">
+        <img src="pet_15.jpg" class="pet-img">
+        <div class="pet-title">Chloe</div>
+        <div class="pet-breed">Ragdoll</div>
+        <div class="pet-price">₹16,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pet-card" data-pet-id="115" data-name="Max" data-breed="Golden Retriever" data-price="₹20,000" data-age="3 years" data-gender="Male" data-img="pet_16.jpg">
+        <img src="pet_16.jpg" class="pet-img">
+        <div class="pet-title">Max</div>
+        <div class="pet-breed">Golden Retriever</div>
+        <div class="pet-price">₹20,000</div>
+        <button class="btn pet-card-btn w-100 explore-btn">Explore</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Example Pet Modal (others follow same structure) -->
+<div class="modal fade" id="pet1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h4>Rocky - Labrador</h4><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Age:</strong> 2 years</li>
+      <li class="list-group-item"><strong>Gender:</strong> Male</li>
+      <li class="list-group-item"><strong>Vaccination:</strong> Completed</li>
+      <li class="list-group-item"><strong>Owner:</strong> Ramesh Kumar</li>
+      <li class="list-group-item"><strong>Description:</strong> Rocky is playful and great with kids.</li>
+    </ul>
+  </div>
+</div></div></div>
+
+<!-- SELL PET MODAL (same as before) -->
+<div class="modal fade" id="sellPetModal"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h4>Sell Your Pet</h4><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+   <!-- <form>
+      <div class="mb-3"><label class="form-label">Owner Name</label><input type="text" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Pet Name</label><input type="text" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Breed</label><input type="text" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Type</label><select class="form-select"><option>Dog</option><option>Cat</option><option>Bird</option><option>Rabbit</option></select></div>
+      <div class="mb-3"><label class="form-label">Gender</label><select class="form-select"><option>Male</option><option>Female</option></select></div>
+      <div class="mb-3"><label class="form-label">DOB</label><input type="date" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Vaccination Status</label><select class="form-select"><option>Completed</option><option>Pending</option></select></div>
+      <div class="mb-3"><label class="form-label">Price</label><input type="number" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Upload Image</label><input type="file" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control"></textarea></div>
+      <button class="btn btn-success">Submit</button>
+    </form>-->
+
+    <!--<form>
+      <div class="mb-3"><label class="form-label">Owner Name</label><input type="text" name="ownerName" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Pet Name</label><input type="text" name="petName" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Breed</label><input type="text" name="breed" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Type</label>
+        <select name="type" class="form-select"><option>Dog</option><option>Cat</option><option>Bird</option><option>Rabbit</option></select>
+      </div>
+      <div class="mb-3"><label class="form-label">Gender</label>
+        <select name="gender" class="form-select"><option>Male</option><option>Female</option></select>
+      </div>
+      <div class="mb-3"><label class="form-label">DOB</label><input type="date" name="dob" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Vaccination Status</label>
+        <select name="vaccinationStatus" class="form-select"><option>Completed</option><option>Pending</option></select>
+      </div>
+      <div class="mb-3"><label class="form-label">Price</label><input type="number" name="price" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Upload Image</label><input type="file" name="image" class="form-control"></div>
+      <div class="mb-3"><label class="form-label">Description</label><textarea name="description" class="form-control"></textarea></div>
+      <button class="btn btn-success">Submit</button>
+    </form>-->
+
+
+
+    <form id="sellPetForm">
+      <div class="mb-3">
+        <label class="form-label">Owner Name</label>
+        <input type="text" name="ownerName" id="ownerName" class="form-control" readonly>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Pet Name</label>
+        <input type="text" name="petName" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Breed</label>
+        <input type="text" name="breed" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Gender</label>
+        <select name="gender" class="form-select" required>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">DOB</label>
+        <input type="date" name="dob" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Vaccination Details</label>
+        <textarea name="vaccinationDetails" class="form-control"></textarea>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+
+  </div>
+</div></div></div>
+
+<!-- PET INFO MODAL -->
+<div class="modal fade" id="petModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="petModalLabel">Pet Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row">
+        <div class="col-md-5 text-center">
+          <img src="" id="modalPetImg" class="img-fluid rounded mb-3" style="max-height:250px;">
+        </div>
+        <div class="col-md-7">
+          <ul class="list-group list-group-flush" id="modalPetDetails">
+            <!-- Pet attributes dynamically inserted here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <h4><i class="bi bi-paw"></i> VetPawtner</h4>
+  <p>Adopt happiness. Share love. Make lives better.</p>
+  <p><i class="bi bi-envelope"></i> support@vetpawtner.com | <i class="bi bi-geo-alt"></i> Bangalore, India</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        <!-- Message will be inserted here -->
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const petCards = document.querySelectorAll('.pet-card');
+
+    const cartToastEl = document.getElementById('cartToast');
+    const cartToast = new bootstrap.Toast(cartToastEl);
+
+    petCards.forEach(card => {
+      function openModal() {
+        const modalTitle = document.getElementById('petModalLabel');
+        const modalImg = document.getElementById('modalPetImg');
+        const modalDetails = document.getElementById('modalPetDetails');
+
+        modalTitle.textContent = card.dataset.name;
+        modalImg.src = card.dataset.img;
+
+        const attrs = {
+          Name: card.dataset.name,
+          Breed: card.dataset.breed,
+          Age: card.dataset.age || "N/A",
+          Gender: card.dataset.gender || "N/A",
+          Price: card.dataset.price
+        };
+
+        modalDetails.innerHTML = '';
+        for (let key in attrs) {
+          const li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.innerHTML = `<strong>${key}:</strong> ${attrs[key]}`;
+          modalDetails.appendChild(li);
+        }
+
+        // Add Add to Cart and Order Now buttons
+        const actionDiv = document.createElement('div');
+        actionDiv.classList.add('mt-3', 'd-flex', 'gap-2');
+        actionDiv.innerHTML = `
+          <button class="btn btn-success flex-fill add-to-cart">Add to Cart</button>
+          <button class="btn btn-primary flex-fill order-now-btn">Order Now</button>
+        `;
+        modalDetails.appendChild(actionDiv);
+
+        // Button actions
+        actionDiv.querySelector('.add-to-cart').addEventListener('click', () => {
+          document.querySelector('#cartToast .toast-body').textContent = card.dataset.name + " added successfully!";
+          cartToast.show();
+        });
+        actionDiv.querySelector('.order-now-btn').addEventListener('click', () => {
+          alert(`Order placed for ${card.dataset.name}!`);
+        });
+
+        new bootstrap.Modal(document.getElementById('petModal')).show();
+      }
+
+      // Open modal when clicking Explore or image
+      card.querySelector('.pet-img').addEventListener('click', openModal);
+      card.querySelector('.explore-btn').addEventListener('click', openModal);
+    });
+  });
+</script>
+<!--<script src="allimg/pet.js"></script>-->
+<script>
+  (function(){
+    console.log("✅ inline pet.js loaded");
+    const BASE_URL = "http://localhost:8080/demo/pet";
+
+    function getLoggedUser(){
+      try{
+        const lu = JSON.parse(localStorage.getItem("loggedUser"));
+        if (lu && lu.id) return lu;
+      }catch(e){}
+      // Fallback if your login only saved userid
+      const id = parseInt(localStorage.getItem("userid"), 10);
+      if (!isNaN(id)) return { id, username: localStorage.getItem("username") || null };
+      return null;
+    }
+
+    function setOwnerName(lu){
+      const owner = document.getElementById("ownerName");
+      if (owner){
+        const label = lu?.username || lu?.email || (lu?.id ? ("User #" + lu.id) : "User");
+        owner.value = label;
+      }
+    }
+
+    async function loadPets(){
+      try{
+        const res = await fetch(BASE_URL + "/fetching");
+        console.log("🐾 GET /fetching status:", res.status);
+        const pets = await res.json();
+        console.log("🐾 Pets:", pets);
+      }catch(err){
+        console.error("❌ loadPets failed:", err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", function(){
+      const form = document.getElementById("sellPetForm");
+      if(!form){
+        console.error("❌ sellPetForm not found. Check the form id.");
+        return;
+      }
+      console.log("✅ sellPetForm found");
+
+      const lu = getLoggedUser();
+      if (!lu) {
+        console.warn("⚠️ No logged user in storage. Redirecting.");
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+      }
+      setOwnerName(lu);
+
+      form.addEventListener("submit", async function(e){
+        e.preventDefault();
+        console.log("📨 Submit clicked");
+
+        const currentUser = getLoggedUser();
+        if (!currentUser || !currentUser.id){
+          alert("⚠️ Login expired. Please login again.");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const fd = new FormData(form);
+        const pet = {
+          user: { id: currentUser.id },
+          name: (fd.get("petName") || "").trim(),
+          breed: (fd.get("breed") || "").trim(),
+          gender: (fd.get("gender") || "").toLowerCase(),
+          dob: fd.get("dob"),
+          vaccinationDetails: (fd.get("vaccinationDetails") || "").trim()
+        };
+
+        console.log("📦 Sending:", pet);
+
+        try{
+          const res = await fetch(BASE_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(pet)
+          });
+
+          const text = await res.text();
+          console.log("🔗 POST status:", res.status, "body:", text);
+
+          if (!res.ok) {
+            alert("❌ Failed to save pet (status " + res.status + ").");
+            return;
+          }
+
+          alert("✅ Pet added successfully!");
+          form.reset();
+          setOwnerName(currentUser);
+          loadPets();
+        }catch(err){
+          console.error("❌ Network/JS error:", err);
+          alert("⚠️ Failed to save pet. See console for details.");
+        }
+      });
+
+      loadPets();
+    });
+
+    // Surface any silent errors
+    window.addEventListener("error", (e) => {
+      console.error("💥 Uncaught error:", e.message, e.error);
+    });
+  })();
+</script>
+
+</body>
+</html>
