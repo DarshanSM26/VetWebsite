@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #f4f6f9;
+          margin: 0;
+          padding: 20px;
+        }
+        h2 {
+          text-align: center;
+          color: #333;
+          margin-bottom: 20px;
+        }
+        .doctor-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+        }
+        .doctor-card {
+          background: #fff;
+          border-radius: 12px;
+          padding: 15px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 700px; /* Fixed height */
+        }
+        .doctor-card img {
+          width: 100%;
+          height: 500px; /* Image height */
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 10px;
+        }
+        .doctor-card h3 {
+          margin: 5px 0;
+          color: #0077b6;
+          text-align: center;
+        }
+        .doctor-card p {
+          margin: 3px 0;
+          color: #555;
+          text-align: center;
+          font-size: 14px;
+        }
+        .doctor-card input {
+          width: 100%;
+          padding: 8px;
+          margin-top: 8px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+        }
+        .doctor-card button {
+          margin-top: 12px;
+          padding: 10px;
+          width: 100%;
+          background: #0077b6;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 15px;
+        }
+        .doctor-card button:hover {
+          background: #005f86;
+        }
+    </style>
+</head>
+<body>
+
+<h2 id="hospitalTitle">Book Appointment</h2>
+<div class="doctor-list" id="doctorList"></div>
+
+<script>
+    const doctorsDB = {
+      "Papa’s Lifeline Veterinary Hospital": [
+        { name: "Dr. Ananya Rao", spec: "Surgeon", time: "10:00 AM - 1:00 PM", fee: 1500, img: "ananya.png" },
+        { name: "Dr. Karthik Reddy", spec: "Dermatologist", time: "2:00 PM - 5:00 PM", fee: 1200, img: "karthikreddy.png" },
+        { name: "Dr. Meera Nair", spec: "General Physician", time: "5:00 PM - 8:00 PM", fee: 1000, img: "meera.png" }
+      ],
+      "Cessna Lifeline Veterinary Hospital": [
+        { name: "Dr. Rohan Gupta", spec: "Orthopedic", time: "9:00 AM - 12:00 PM", fee: 1600, img: "doctor17.png" },
+        { name: "Dr. Priya Sharma", spec: "General Physician", time: "1:00 PM - 4:00 PM", fee: 1100, img: "doctor5.png" },
+        { name: "Dr. Nikhil Menon", spec: "Radiologist", time: "4:00 PM - 7:00 PM", fee: 1300, img: "doctor6.png" }
+      ],
+      "Jeeva Pet Hospital": [
+        { name: "Dr. Akash Jain", spec: "Dentist", time: "10:00 AM - 12:30 PM", fee: 1200, img: "doctor7.png" },
+        { name: "Dr. Sneha Iyer", spec: "Pathologist", time: "2:00 PM - 5:00 PM", fee: 1400, img: "doctor8.png" },
+        { name: "Dr. Vikas Rao", spec: "General Physician", time: "5:00 PM - 7:30 PM", fee: 1000, img: "doctor9.png" }
+      ],
+      "V-Care Pet Polyclinic": [
+        { name: "Dr. Shalini Mishra", spec: "Cardiologist", time: "9:00 AM - 12:00 PM", fee: 1800, img: "doctor10.png" },
+        { name: "Dr. Varun Patel", spec: "Neurologist", time: "1:00 PM - 4:00 PM", fee: 1700, img: "doctor11.png" },
+        { name: "Dr. Deepa Joshi", spec: "Surgeon", time: "4:00 PM - 7:00 PM", fee: 1600, img: "doctor12.png" }
+      ],
+      "Renee Vet Hospital": [
+        { name: "Dr. Rajesh Kumar", spec: "Orthopedic", time: "10:00 AM - 1:00 PM", fee: 1500, img: "doctor13.png" },
+        { name: "Dr. Kavya Desai", spec: "Dermatologist", time: "2:00 PM - 5:00 PM", fee: 1300, img: "doctor14.png" },
+        { name: "Dr. Tarun Malhotra", spec: "General Physician", time: "5:00 PM - 8:00 PM", fee: 1100, img: "doctor15.png" }
+      ],
+      "RMV Multi-Speciality Veterinary Clinic": [
+        { name: "Dr. Neha Agarwal", spec: "General Physician", time: "9:00 AM - 12:00 PM", fee: 1000, img: "doctor16.png" },
+        { name: "Dr. Sandeep Rao", spec: "Radiologist", time: "1:00 PM - 3:30 PM", fee: 1400, img: "doctor17.png" },
+        { name: "Dr. Ritu Sharma", spec: "Surgeon", time: "4:00 PM - 7:00 PM", fee: 1500, img: "doctor18.png" }
+      ],
+      "Herriots Vet Poly Clinic": [
+        { name: "Dr. Niharika Singh", spec: "Dentist", time: "10:00 AM - 12:30 PM", fee: 1200, img: "doctor14.png" },
+        { name: "Dr. Aditya Mehra", spec: "Orthopedic", time: "2:00 PM - 4:30 PM", fee: 1600, img: "doctor5.png" },
+        { name: "Dr. Kavita Joshi", spec: "General Physician", time: "5:00 PM - 7:30 PM", fee: 1000, img: "doctor8.png" }
+      ],
+      "Bangalore Pet Hospital": [
+        { name: "Dr. Ravi Teja", spec: "Pathologist", time: "9:30 AM - 11:30 AM", fee: 1300, img: "doctor6.png" },
+        { name: "Dr. Bhavana Shetty", spec: "General Physician", time: "12:30 PM - 3:00 PM", fee: 1100, img: "doctor7.png" },
+        { name: "Dr. Sameer Kulkarni", spec: "Dermatologist", time: "4:00 PM - 6:30 PM", fee: 1400, img: "doctor9.png" }
+      ],
+      "Precise Pet Clinic & Diagnostics": [
+        { name: "Dr. Mehul Shah", spec: "Cardiologist", time: "10:00 AM - 12:30 PM", fee: 1800, img: "doctor8.png" },
+        { name: "Dr. Riya Kapoor", spec: "Surgeon", time: "2:00 PM - 4:30 PM", fee: 1500, img: "doctor9.png" },
+        { name: "Dr. Ajay Bhat", spec: "General Physician", time: "5:00 PM - 8:00 PM", fee: 1100, img: "doctor27.png" }
+      ],
+      "Prajna Veterinary Clinic": [
+        { name: "Dr. Sushma Reddy", spec: "Orthopedic", time: "9:00 AM - 12:00 PM", fee: 1500, img: "doctor10.png" },
+        { name: "Dr. Pranav Joshi", spec: "Dermatologist", time: "1:00 PM - 4:00 PM", fee: 1300, img: "doctor11.png" },
+        { name: "Dr. Lakshmi Rao", spec: "General Physician", time: "5:00 PM - 7:30 PM", fee: 1000, img: "doctor12.png" }
+      ],
+      "CUPA Small Animal Specialty Hospital": [
+        { name: "Dr. Harsha Nair", spec: "Neurologist", time: "10:00 AM - 12:30 PM", fee: 1700, img: "doctor13.png" },
+        { name: "Dr. Anjali Gupta", spec: "Surgeon", time: "2:00 PM - 5:00 PM", fee: 1500, img: "doctor14.png" },
+        { name: "Dr. Vikram Singh", spec: "General Physician", time: "5:00 PM - 8:00 PM", fee: 1000, img: "doctor15.png" }
+      ],
+      "Government Veterinary Hospital": [
+        { name: "Dr. Ankit Verma", spec: "General Physician", time: "9:00 AM - 11:30 AM", fee: 1000, img: "doctor16.png" },
+        { name: "Dr. Sneha Rao", spec: "Dentist", time: "12:00 PM - 3:00 PM", fee: 1200, img: "doctor17.png" },
+        { name: "Dr. Nitin Yadav", spec: "Radiologist", time: "4:00 PM - 7:00 PM", fee: 1400, img: "doctor18.png" }
+      ]
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const hospital = params.get("name");
+    document.getElementById("hospitalTitle").textContent = `Doctors at ${hospital}`;
+    const doctorList = document.getElementById("doctorList");
+
+    if (doctorsDB[hospital]) {
+      doctorsDB[hospital].forEach(doc => {
+        const card = document.createElement("div");
+        card.className = "doctor-card";
+        card.innerHTML = `
+          <img src="${doc.img}" alt="${doc.name}">
+          <h3>${doc.name}</h3>
+          <p><b>Specialization:</b> ${doc.spec}</p>
+          <p><b>Available:</b> ${doc.time}</p>
+          <p><b>Consultation Fee:</b> ₹${doc.fee}</p>
+          <label><b>Select Date:</b></label>
+          <input type="date" id="date-${doc.name.replace(/\s/g,'')}">
+          <button onclick="bookDoctor('${doc.name}', '${hospital}', ${doc.fee}, 'date-${doc.name.replace(/\s/g,'')}')">Book Appointment</button>
+        `;
+        doctorList.appendChild(card);
+      });
+    } else {
+      doctorList.innerHTML = `<p>No doctors available for this hospital.</p>`;
+    }
+
+    function bookDoctor(doctor, hospital, fee, dateInputId) {
+      const date = document.getElementById(dateInputId).value;
+      window.location.href = `payment.html?doctor=${encodeURIComponent(doctor)}&hospital=${encodeURIComponent(hospital)}&fee=${fee}&date=${date}`;
+    }
+</script>
+
+</body>
+</html>

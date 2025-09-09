@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet Clinics - Bengaluru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          min-height: 100vh;
+          background: url('bg1.jpg') no-repeat center center fixed;
+          background-size: cover;
+          color: #000;
+          overflow-x: hidden;
+        }
+        h2 {
+          text-align: center;
+          margin: 2rem 0;
+          font-size: 2.5rem;
+          color: #ff5733;
+          text-shadow: 1px 1px 4px #fff;
+        }
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+          gap: 2rem;
+          padding: 1rem 2rem;
+        }
+        .card {
+          cursor: pointer;
+          transition: 0.3s;
+          border-radius: 15px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          background: #fff;
+          color: #000;
+        }
+        .card:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+        }
+        .clinic-img {
+          width: 100%;
+          height: 500px;
+          object-fit: cover;
+          border-top-left-radius: 15px;
+          border-top-right-radius: 15px;
+        }
+        .card-body {
+          padding: 1.5rem;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          font-size: 1.1rem;
+        }
+        .stars { color: gold; }
+        #clinicDetails { display: none; padding: 2rem; }
+        .details-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 20px;
+          background: #fff;
+          color: #000;
+          padding: 1.5rem;
+          border-radius: 15px;
+        }
+        .details-text { flex: 1; }
+        .detail-img {
+          width: 350px;
+          height: 400px;
+          object-fit: cover;
+          border-radius: 12px;
+        }
+        button {
+          padding: 12px 18px;
+          border: none;
+          border-radius: 8px;
+          background: #ff5733;
+          color: #fff;
+          font-weight: bold;
+          cursor: pointer;
+          margin-top: 1rem;
+          font-size: 1rem;
+        }
+        button:hover { background: #e64a19; }
+        a { color: #ff5733; }
+    </style>
+</head>
+<body class="container py-4">
+
+<h2 class="text-center mb-4">🐾 Pet Clinics in Bengaluru</h2>
+
+<div id="filterSection" class="row mb-3">
+    <div class="col-md-6">
+        <input type="text" id="searchClinic" class="form-control" placeholder="Search clinics...">
+    </div>
+    <div class="col-md-6">
+        <select id="filterRating" class="form-select">
+            <option value="all">All Ratings</option>
+            <option value="4.5">4.5★ & above</option>
+            <option value="4.7">4.7★ & above</option>
+        </select>
+    </div>
+</div>
+
+<div class="row" id="clinicList"></div>
+
+<div id="clinicDetails" class="card p-4 bg-dark text-light">
+    <button class="btn btn-sm btn-secondary mb-3" onclick="backToList()">⬅ Back to Clinics</button>
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h3 id="detailName"></h3>
+            <p id="detailAddress"></p>
+            <p id="detailPhone"></p>
+            <p id="detailRating"></p>
+            <p><a href="#" id="detailMap" target="_blank" class="btn btn-sm btn-warning">📍 View on Google Maps</a></p>
+
+            <h5>Customer Reviews</h5>
+            <textarea id="reviewInput" class="form-control mb-2" rows="2" placeholder="Write your review..."></textarea>
+            <button class="btn btn-success btn-sm mb-3" onclick="addReview()">Submit Review</button>
+            <ul id="reviewList" class="list-unstyled"></ul>
+
+            <button id="bookBtn" class="btn btn-primary mt-3">Book Appointment</button>
+        </div>
+        <img id="detailImg" class="detail-img" alt="Clinic Image">
+    </div>
+</div>
+
+<script>
+    // Backend base URL (adjust if API runs on a different host/port)
+    const API_BASE = "http://localhost:8080/petclinic";
+
+    // Frontend master data
+    const clinics = [
+      { id:1, name:"Papa’s Lifeline Veterinary Hospital", address:"Jayanagar, Bengaluru", phone:"+91 73494 50915", rating:4.7, map:"https://maps.google.com/?q=Jayanagar,Bengaluru", img:"papa.png", reviews:["Excellent care and friendly staff!","Doctors are knowledgeable and kind.","Little waiting time but worth it."] },
+      { id:2, name:"Cessna Lifeline Veterinary Hospital", address:"Domlur, Bengaluru", phone:"+91 76763 65365", rating:4.3, map:"https://maps.google.com/?q=Domlur,Bengaluru", img:"cessna.png", reviews:["Spacious and well-equipped clinic.","They took very good care of my dog."] },
+      { id:3, name:"Jeeva Pet Hospital", address:"JP Nagar, Bengaluru", phone:"+91 80426 87782", rating:4.4, map:"https://maps.google.com/?q=JP Nagar,Bengaluru", img:"jeeva.png", reviews:["Affordable and friendly service."] },
+      { id:4, name:"V-Care Pet Polyclinic", address:"Koramangala / Whitefield, Bengaluru", phone:"+91 80525 25834", rating:4.5, map:"https://maps.google.com/?q=Koramangala,Bengaluru", img:"vcare.png", reviews:["Trusted doctors and clean environment."] },
+      { id:5, name:"Renee Vet Hospital", address:"JP Nagar, Koramangala, Bengaluru", phone:"", rating:4.2, map:"https://maps.google.com/?q=Koramangala,Bengaluru", img:"renee.png", reviews:["Good staff but sometimes crowded."] },
+      { id:6, name:"RMV Multi-Speciality Veterinary Clinic", address:"RMV Extension, Bengaluru", phone:"9889380766", rating:4.3, map:"https://maps.google.com/?q=RMV Extension,Bengaluru", img:"rmv.png", reviews:["Quick response and helpful doctors."] },
+      { id:7, name:"Herriots Vet Poly Clinic", address:"HSR Layout, Bengaluru", phone:"+91 98452 99502", rating:4.6, map:"https://maps.google.com/?q=HSR Layout,Bengaluru", img:"herriots.png", reviews:["Very professional and kind to pets."] },
+      { id:8, name:"Bangalore Pet Hospital", address:"Whitefield, Bengaluru", phone:"080-3456 987 231", rating:4.7, map:"https://maps.google.com/?q=Whitefield,Bengaluru", img:"bng.png", reviews:["Best care for my Labrador!"] },
+      { id:9, name:"Precise Pet Clinic & Diagnostics", address:"HAL / Jeevanbheema Nagar, Bengaluru", phone:"080 2521 3048", rating:4.5, map:"https://maps.google.com/?q=HAL,Bengaluru", img:"precise.png", reviews:["Accurate diagnostics and timely reports."] },
+      { id:10, name:"Prajna Veterinary Clinic", address:"Banashankari 3rd Stage, Bengaluru", phone:"080 2669 9415", rating:4.4, map:"https://maps.google.com/?q=Banashankari,Bengaluru", img:"prajna.png", reviews:["Doctor explained everything well."] },
+      { id:11, name:"CUPA Small Animal Specialty Hospital", address:"RT Nagar, Bengaluru", phone:"91088 55888", rating:4.5, map:"https://maps.google.com/?q=RT Nagar,Bengaluru", img:"cupa.png", reviews:["Dedicated and experienced staff."] },
+      { id:12, name:"Government Veterinary Hospital", address:"Chamrajpet, Bengaluru", phone:"080-67854322", rating:4.2, map:"https://maps.google.com/?q=Chamrajpet,Bengaluru", img:"govt.png", reviews:["Affordable services for all."] }
+    ];
+
+    let currentClinic = { front: null, db: null };
+
+    function renderStars(r) {
+      const rr = typeof r === "number" ? r : 0;
+      let out = "";
+      for (let i=0; i<5; i++) out += i < Math.floor(rr) ? "★" : "☆";
+      return `<span class="stars">${out}</span> (${rr})`;
+    }
+
+    function renderClinics() {
+      document.getElementById("clinicDetails").style.display = "none";
+      document.getElementById("filterSection").style.display = "flex";
+      const search = document.getElementById("searchClinic").value.toLowerCase();
+      const filter = document.getElementById("filterRating").value;
+      const list = document.getElementById("clinicList");
+      list.innerHTML = "";
+
+      clinics
+        .filter(c => c.name.toLowerCase().includes(search))
+        .filter(c => filter === "all" || c.rating >= parseFloat(filter))
+        .forEach(c => {
+          const badge = c.rating > 4.7 ? `<span class="badge bg-success ms-2">Top Rated</span>` : "";
+          const html = `
+            <div class="col-md-6 mb-4 d-flex">
+              <div class="card h-100 w-100" onclick="viewClinic(${c.id})">
+                <img src="${c.img}" class="clinic-img" alt="${c.name}">
+                <div class="card-body">
+                  <h5 class="card-title">${c.name}${badge}</h5>
+                  <p>${c.address}</p>
+                  <p>${renderStars(c.rating)}</p>
+                  <p><strong>${c.reviews.length}</strong> customer reviews</p>
+                </div>
+              </div>
+            </div>`;
+          list.insertAdjacentHTML("beforeend", html);
+        });
+    }
+
+    async function ensureDbClinicByName(name) {
+      const res = await fetch(`${API_BASE}/by-name`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+      });
+      if (!res.ok) throw new Error(`by-name HTTP ${res.status}`);
+      return res.json(); // { clinicId, name, ... }
+    }
+
+    async function viewClinic(id) {
+      const c = clinics.find(cl => cl.id === id);
+      currentClinic.front = c;
+      currentClinic.db = null;
+
+      try {
+        const dbClinic = await ensureDbClinicByName(c.name);
+        currentClinic.db = dbClinic;
+      } catch (e) {
+        console.error("Failed to ensure DB clinic:", e);
+        alert("Unable to load clinic record. Reviews may not save.");
+      }
+
+      document.getElementById("clinicList").innerHTML = "";
+      document.getElementById("filterSection").style.display = "none";
+      document.getElementById("clinicDetails").style.display = "block";
+
+      document.getElementById("detailName").textContent = c.name;
+      document.getElementById("detailAddress").textContent = "📍 " + c.address;
+      document.getElementById("detailPhone").textContent = c.phone ? "📞 " + c.phone : "📞 Not available";
+      document.getElementById("detailRating").innerHTML = renderStars(c.rating);
+      document.getElementById("detailMap").href = c.map;
+      document.getElementById("detailImg").src = c.img;
+
+      document.getElementById("reviewList").innerHTML = c.reviews.map(r => `<li>⭐ ${r}</li>`).join("");
+
+      document.getElementById("bookBtn").onclick = () => {
+        window.location.href = `appointment.html?clinic=${c.id}&name=${encodeURIComponent(c.name)}`;
+      };
+    }
+
+    function backToList() {
+      renderClinics();
+    }
+
+    async function addReview() {
+      const text = document.getElementById("reviewInput").value.trim();
+      if (!text || !currentClinic.front) return;
+
+      // Update UI immediately
+      currentClinic.front.reviews.push(text);
+      document.getElementById("reviewInput").value = "";
+      document.getElementById("reviewList").innerHTML =
+        currentClinic.front.reviews.map(r => `<li>⭐ ${r}</li>`).join("");
+
+      // Persist to backend
+      try {
+        if (!currentClinic.db || !currentClinic.db.clinicId) {
+          currentClinic.db = await ensureDbClinicByName(currentClinic.front.name);
+        }
+        const res = await fetch(`${API_BASE}/${currentClinic.db.clinicId}/review`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ review: text })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const updated = await res.json();
+        // Optionally reconcile from DB:
+        // const dbReviews = (updated.reviews || "").split(";;").filter(s => s.trim().length);
+      } catch (e) {
+        console.error("Failed to save review:", e);
+        alert("Review could not be saved to server. It is shown locally only.");
+      }
+    }
+
+    document.getElementById("searchClinic").addEventListener("input", renderClinics);
+    document.getElementById("filterRating").addEventListener("change", renderClinics);
+
+    renderClinics();
+</script>
+</body>
+</html>

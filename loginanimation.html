@@ -33,9 +33,21 @@
                 From routine check-ups to emergency care, we've got you covered.
             </p>
             <!-- A visually appealing image -->
-            <div class="w-full max-w-xs md:max-w-md">
+           <!-- <div class="w-full max-w-xs md:max-w-md">
                 <img src="https://placehold.co/600x400/8b5cf6/ffffff?text=Your+Vet+Partner" alt="A veterinarian with a dog and a cat" class="rounded-2xl shadow-lg w-full h-auto">
-            </div>
+                <video src="dogrun.mp4" autoplay muted loop playsinline class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg"></video>
+                                        <video src="rab.mp4" autoplay muted loop playsinline class="w-full md:w-1/2 h-48 md:h-full object-cover rounded-2xl shadow-lg"></video>
+                                        
+            </div>-->
+
+
+            <div class="w-full max-w-3xl flex gap-4">
+    <video src="birds.mp4" autoplay muted loop playsinline 
+        class="w-1/2 h-48 md:h-80 object-cover rounded-2xl shadow-lg"></video>
+    <video src="rab.mp4" autoplay muted loop playsinline 
+        class="w-1/2 h-48 md:h-80 object-cover rounded-2xl shadow-lg"></video>
+</div>
+
         </div>
 
         <!-- Login and Registration Forms Section -->
@@ -46,7 +58,7 @@
             <div class="relative w-full overflow-hidden">
                 <div id="formWrapper" class="form-wrapper">
                     <!-- Login Form -->
-                    <div id="loginFormContainer" class="forms-container">
+                   <!-- <div id="loginFormContainer" class="forms-container">
                         <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
                             <span class="inline-block align-middle pb-1 mr-2">🐾</span>Login
                         </h2>
@@ -64,7 +76,46 @@
                         <p class="mt-4 text-center text-sm text-gray-600">
                             Don't have an account? <a href="#" id="showRegister" class="font-medium text-violet-600 hover:text-violet-500">Register now</a>.
                         </p>
-                    </div>
+                    </div>-->
+
+
+                    <div id="loginFormContainer" class="forms-container">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        <span class="inline-block align-middle pb-1 mr-2">🐾</span>Login
+    </h2>
+    <form id="loginForm" class="space-y-6">
+        <div>
+            <label for="loginIdentifier" class="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <i class="bi bi-person-circle mr-2"></i>Email or Username
+            </label>
+            <!-- ✅ type="text" instead of type="email" -->
+            <input type="text" id="loginIdentifier" placeholder="Enter email or username"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                required>
+        </div>
+        <div>
+            <label for="loginPassword" class="flex items-center text-sm font-medium text-gray-700 mb-1">
+                <i class="bi bi-lock mr-2"></i>Password
+            </label>
+            <input type="password" id="loginPassword" placeholder="Enter password"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm
+                       focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                required>
+        </div>
+        <button type="submit"
+            class="w-full py-3 px-4 border border-transparent rounded-lg shadow-sm
+                   text-sm font-medium text-white bg-violet-500 hover:bg-violet-600
+                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-colors">
+            Login
+        </button>
+    </form>
+    <p class="mt-4 text-center text-sm text-gray-600">
+        Don't have an account?
+        <a href="#" id="showRegister" class="font-medium text-violet-600 hover:text-violet-500">Register now</a>.
+    </p>
+</div>
+
     
                     <!-- Registration Form -->
                     <div id="registerFormContainer" class="forms-container">
@@ -111,7 +162,7 @@
         </div>
     </div>
 
-    <script>
+   <!-- <script>
         const loginFormContainer = document.getElementById('loginFormContainer');
         const registerFormContainer = document.getElementById('registerFormContainer');
         const showLoginLink = document.getElementById('showLogin');
@@ -228,6 +279,236 @@
             messageArea.className = `absolute top-8 w-full px-4 text-center font-semibold z-10 ${color}`;
             messageArea.classList.remove('hidden');
         }
-    </script>
+    </script>-->
+
+
+
+    <!--<script>
+    const LOGIN_URL = "http://localhost:8080/api/user/login";
+    const REGISTER_URL = "http://localhost:8080/api/user/register";
+
+    const loginFormContainer = document.getElementById('loginFormContainer');
+    const registerFormContainer = document.getElementById('registerFormContainer');
+    const showLoginLink = document.getElementById('showLogin');
+    const showRegisterLink = document.getElementById('showRegister');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const messageArea = document.getElementById('messageArea');
+    const formWrapper = document.getElementById('formWrapper');
+
+    // toggle forms
+    function toggleForms(showLogin) {
+        if (showLogin) {
+            formWrapper.style.transform = 'translateX(0%)';
+        } else {
+            formWrapper.style.transform = 'translateX(-100%)';
+        }
+        messageArea.classList.add('hidden');
+    }
+
+    showLoginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleForms(true);
+    });
+
+    showRegisterLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleForms(false);
+    });
+
+    // ✅ LOGIN
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const identifier = document.getElementById("loginEmail").value.trim(); // email or username
+        const password = document.getElementById("loginPassword").value.trim();
+
+        try {
+            const res = await fetch(LOGIN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: identifier, password })
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                localStorage.setItem("loggedUser", JSON.stringify(user));
+                showMessage(`✅ Welcome ${user.username}! Redirecting...`, "text-green-600");
+
+                // role-based redirect
+                setTimeout(() => {
+                    if (user.role === "user") window.location.href = "FinalUserpage.html";
+                    else if (user.role === "vet") window.location.href = "FinalVetpage.html";
+                    else if (user.role === "admin") window.location.href = "FinalAdminpage.html";
+                    else window.location.href = "index.html";
+                }, 1200);
+            } else {
+                const msg = await res.text();
+                showMessage("❌ " + msg, "text-red-600");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            showMessage("⚠️ Login failed. Check console.", "text-red-600");
+        }
+    });
+
+    // ✅ REGISTER
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const user = {
+            username: document.getElementById('userName').value,
+            userphone: document.getElementById('userPhone').value,
+            email: document.getElementById('userEmail').value,
+            password: document.getElementById('userPassword').value,
+            useraddress: document.getElementById('userAddress').value,
+            role: document.getElementById('userRoles').value.toLowerCase()
+        };
+
+        try {
+            const response = await fetch(REGISTER_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(user)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                showMessage(`✅ Registered successfully! Welcome ${data.username}`, 'text-green-600');
+                registerForm.reset();
+                setTimeout(() => { toggleForms(true); }, 2000);
+            } else {
+                const errorText = await response.text();
+                showMessage(`❌ Registration failed! ${errorText}`, 'text-red-600');
+            }
+        } catch (error) {
+            console.error("Registration error:", error);
+            showMessage(`⚠️ Error: ${error.message}`, 'text-red-600');
+        }
+    });
+
+    // helper
+    function showMessage(msg, color) {
+        messageArea.textContent = msg;
+        messageArea.className = `absolute top-8 w-full px-4 text-center font-semibold z-10 ${color}`;
+        messageArea.classList.remove('hidden');
+    }
+</script>-->
+
+
+
+<script>
+    const LOGIN_URL = "http://localhost:8080/api/user/login";
+    const REGISTER_URL = "http://localhost:8080/api/user/register";
+
+    const loginFormContainer = document.getElementById('loginFormContainer');
+    const registerFormContainer = document.getElementById('registerFormContainer');
+    const showLoginLink = document.getElementById('showLogin');
+    const showRegisterLink = document.getElementById('showRegister');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const messageArea = document.getElementById('messageArea');
+    const formWrapper = document.getElementById('formWrapper');
+
+    // ✅ Toggle forms
+    function toggleForms(showLogin) {
+        if (showLogin) {
+            formWrapper.style.transform = 'translateX(0%)';
+        } else {
+            formWrapper.style.transform = 'translateX(-100%)';
+        }
+        messageArea.classList.add('hidden');
+    }
+
+    showLoginLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleForms(true);
+    });
+
+    showRegisterLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleForms(false);
+    });
+
+    // ✅ LOGIN (email or username + password)
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const identifier = document.getElementById("loginIdentifier").value.trim(); // email OR username
+        const password = document.getElementById("loginPassword").value.trim();
+
+        try {
+            const res = await fetch(LOGIN_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: identifier, password }) // backend handles both
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                localStorage.setItem("loggedUser", JSON.stringify(user));
+                showMessage(`✅ Welcome ${user.username}! Redirecting...`, "text-green-600");
+
+                // role-based redirect
+                setTimeout(() => {
+                    if (user.role === "user") window.location.href = "userpage.html";
+                    else if (user.role === "vet") window.location.href = "FinalVetpage.html";
+                    else if (user.role === "admin") window.location.href = "FinalAdminpage.html";
+                    else window.location.href = "index.html";
+                }, 1200);
+            } else {
+                const msg = await res.text();
+                showMessage("❌ " + msg, "text-red-600");
+            }
+        } catch (err) {
+            console.error("Login error:", err);
+            showMessage("⚠️ Login failed. Check console.", "text-red-600");
+        }
+    });
+
+    // ✅ REGISTER
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const user = {
+            username: document.getElementById('userName').value,
+            userphone: document.getElementById('userPhone').value,
+            email: document.getElementById('userEmail').value,
+            password: document.getElementById('userPassword').value,
+            useraddress: document.getElementById('userAddress').value,
+            role: document.getElementById('userRoles').value.toLowerCase()
+        };
+
+        try {
+            const response = await fetch(REGISTER_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(user)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                showMessage(`✅ Registered successfully! Welcome ${data.username}`, 'text-green-600');
+                registerForm.reset();
+                setTimeout(() => { toggleForms(true); }, 2000);
+            } else {
+                const errorText = await response.text();
+                showMessage(`❌ Registration failed! ${errorText}`, 'text-red-600');
+            }
+        } catch (error) {
+            console.error("Registration error:", error);
+            showMessage(`⚠️ Error: ${error.message}`, 'text-red-600');
+        }
+    });
+
+    // ✅ Helper to show messages
+    function showMessage(msg, color) {
+        messageArea.textContent = msg;
+        messageArea.className = `absolute top-8 w-full px-4 text-center font-semibold z-10 ${color}`;
+        messageArea.classList.remove('hidden');
+    }
+</script>
+
+
 </body>
 </html>

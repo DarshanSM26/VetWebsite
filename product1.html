@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        :root {
+          --main-orange: #ff6b35;
+          --main-pink: #ff9472;
+          --promo-blue: #e7eafe;
+          --promo-yellow: #fff4e0;
+          --promo-gray: #f8f8f8;
+          /* Added so existing references work */
+          --main-brown: #5a3d2b;
+        }
+
+        /* Smooth UX + better sizing */
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+          background: var(--promo-gray);
+          font-family: 'Segoe UI', sans-serif;
+          color: #333;
+          line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Global gentle transitions */
+        .btn, .product-card, .promo-card, .trending-card, .social-link, .product-img {
+          transition: transform .28s ease, box-shadow .28s ease, background .28s ease, color .28s ease, opacity .28s ease;
+        }
+
+        /* NAVBAR – keep your color but give it depth */
+        .navbar {
+          background: var(--main-brown);
+          box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+          position: sticky;
+          top: 0;
+          z-index: 1030;
+        }
+        .navbar-brand {
+          font-weight: 700;
+          font-size: 2rem;
+          color: #fff !important;
+          letter-spacing: 1px;
+          text-shadow: 0 2px 10px rgba(0,0,0,.18);
+        }
+
+        /* HERO BANNER – add soft gradient overlay + subtle parallax-y feel */
+        .hero-banner {
+          background: url('img.png') center center / cover no-repeat white;
+          height: 400px;
+          width: 100%;
+          border-radius: 0 0 50px 50px;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 3px 24px rgba(97,48,14,0.13);
+          will-change: transform;
+        }
+        .hero-banner::after{
+          content:"";
+          position:absolute; inset:0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.25) 100%);
+          pointer-events:none;
+        }
+
+        .hero-content {
+          max-width: 600px;
+          margin-left: 2rem;
+          position: relative;
+          z-index: 2;
+        }
+        .hero-banner h1 {
+          font-weight: 900;
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          text-shadow: 0 3px 8px rgba(0,0,0,0.28);
+        }
+        .hero-banner p {
+          font-size: 1.2rem;
+          font-weight: 500;
+          margin-bottom: 1.5rem;
+        }
+        .hero-btn {
+          background: linear-gradient(90deg, var(--main-orange), var(--main-pink));
+          color: #fff;
+          border-radius: 2em;
+          font-weight: 700;
+          padding: 0.7rem 2.2rem;
+          border: none;
+          box-shadow: 0 8px 18px rgba(255,107,53,0.24);
+        }
+        .hero-btn:hover {
+          filter: brightness(1.05);
+          transform: translateY(-2px);
+        }
+
+        /* PROMO CARDS – lift, gentle gradient, animated images */
+        .promo-row {
+          display: flex;
+          gap: 1.5rem;
+          justify-content: center;
+          margin: 2rem 0 3.5rem 0;
+          flex-wrap: wrap;
+        }
+        .promo-card {
+          flex: 1 1 0;
+          background: #fff;
+          border-radius: 20px;
+          box-shadow: 0 8px 26px rgba(97,48,14,0.10);
+          padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+          min-width: 220px;
+          max-width: 340px;
+          position: relative;
+          text-align: center;
+          overflow: hidden;
+          font-size: 1rem;
+          transform: translateY(0);
+        }
+        .promo-card:hover { transform: translateY(-8px); }
+        .promo-card::before{
+          content:"";
+          position:absolute; inset:0;
+          background: radial-gradient(80% 80% at 50% 0%, rgba(255,148,114,0.18), transparent 60%);
+          pointer-events:none;
+        }
+        .promo-card img {
+          height: 60px;
+          margin-bottom: .8rem;
+          object-fit: contain;
+          transform: translateZ(0);
+        }
+        .promo-card:hover img { transform: translateY(-3px) scale(1.03); }
+        .promo-card.promo-yellow {background: var(--promo-yellow);}
+        .promo-card.promo-blue {background: var(--promo-blue);}
+        .promo-card .promo-title {
+          font-weight: 700;
+          font-size: 1.2rem;
+          margin-bottom: 0.2rem;
+          color: var(--main-brown);
+        }
+        .promo-card .promo-text {
+          font-size: 1em;
+          color: #444;
+          margin-bottom: .8rem;
+          opacity: .9;
+        }
+        .promo-card .btn {
+          background: var(--main-orange);
+          color: #fff;
+          border-radius: 18px;
+          font-weight: 600;
+          padding: 0.4rem 1.4rem;
+          margin-bottom: 1rem;
+          box-shadow: 0 6px 14px rgba(255,107,53,0.25);
+        }
+        .promo-card .btn:hover {
+          background: var(--main-brown);
+          color: #fff;
+          transform: translateY(-2px);
+        }
+
+        /* SECTION HEADER – accent bar */
+        .section-header {
+          font-size: 2rem;
+          font-weight:900;
+          margin-bottom: 2rem;
+          margin-top: 1rem;
+          letter-spacing: -1px;
+          color: var(--main-brown);
+          text-align:left;
+          position: relative;
+          padding-left: 14px;
+        }
+        .section-header::before{
+          content:"";
+          position:absolute; left:0; top:8px; bottom:8px;
+          width:6px; border-radius:4px;
+          background: linear-gradient(180deg, var(--main-orange), var(--main-pink));
+        }
+
+        /* PRODUCT GRID & CARDS – lift + image zoom + subtle glow */
+        .product-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 2rem;
+        }
+        .product-card {
+          background: #fff;
+          border-radius: 18px;
+          min-width: 200px;
+          max-width: 220px;
+          box-shadow: 0 6px 18px rgba(97,48,14,0.09);
+          padding: 1rem;
+          text-align: center;
+          flex: 1 1 0;
+          margin-bottom: 2rem;
+          position: relative;
+          overflow: hidden;
+        }
+        .product-card::after{
+          content:"";
+          position:absolute; inset:0;
+          background: radial-gradient(70% 70% at 50% -10%, rgba(255,107,53,.12), transparent 60%);
+          opacity: 0; transition: opacity .28s ease;
+          pointer-events:none;
+        }
+        .product-card:hover::after{ opacity: 1; }
+        .product-card:hover{
+          transform: translateY(-6px);
+          box-shadow: 0 14px 28px rgba(0,0,0,0.14);
+        }
+        .product-img {
+          width: 100%;
+          height: 110px;
+          object-fit: contain;
+          border-radius: 10px;
+          will-change: transform;
+        }
+        .product-card:hover .product-img { transform: scale(1.08); }
+        .product-title {
+          font-weight: 700;
+          font-size: 1.1rem;
+          margin: 10px 0 4px 0;
+          color: #444;
+        }
+        .product-price { /* (you had this class; making it pop when used) */
+          color: var(--main-orange);
+          font-weight: 800;
+          font-size: 1.06rem;
+          letter-spacing: .2px;
+        }
+        .product-rating {
+          font-size: 0.95rem;
+          color: #ffd700;
+          margin-bottom: 5px;
+        }
+        .product-desc {
+          color: #777;
+          font-size: .85em;
+          margin-bottom: 0.8em;
+          min-height:36px;
+        }
+        .btn-cart {
+          background: linear-gradient(90deg, var(--main-orange), var(--main-pink));
+          color: #fff;
+          border-radius: 16px;
+          font-weight: 700;
+          padding: 0.45rem 1.15rem;
+          border: none;
+          box-shadow: 0 8px 18px rgba(255,107,53,0.25);
+        }
+        .btn-cart:hover {
+          filter: brightness(1.05);
+          color:#fff;
+          transform: translateY(-2px);
+        }
+        /* disabled style for btn-cart when needed */
+        .btn-cart[disabled]{
+          opacity: 0.6;
+          cursor: not-allowed;
+          filter: grayscale(.1);
+          box-shadow: none;
+        }
+
+        /* TRENDING + SIDE BANNER */
+        .trending-row {
+          display: flex;
+          gap: 40px; /* adds space between trending section and side banner */
+          align-items: stretch;
+        }
+        .trending-section {
+          background: #fff;
+          border-radius: 18px;
+          padding: 1.6rem 2rem;
+          flex: 2 1 0;
+          box-shadow: 0 10px 28px rgba(97,48,14,0.10);
+        }
+        .trending-header {
+          font-size:1.4rem;font-weight:700;margin-bottom:.8rem;color:var(--main-brown);
+          letter-spacing:-.7px;
+        }
+        .trending-products {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* 2 products per row */
+          gap: 20px; /* space between product cards */
+        }
+        .trending-card {
+          background: #fff;
+          border-radius: 12px;
+          padding: 12px;
+          text-align: center;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+          position: relative;
+          overflow: hidden;
+        }
+        .trending-card:hover { transform: translateY(-6px) scale(1.03); }
+        .trending-card img{height:60px;width:auto;margin-bottom:8px; will-change: transform;}
+        .trending-card:hover img{ transform: translateY(-2px) scale(1.05); }
+        .trending-title{font-size:1rem;font-weight:700;color:#444;}
+        .trending-price{color:var(--main-orange);font-weight:700;}
+        .trending-stars{color:#ffd700;font-size:.92em;}
+        .new-label{
+          background: var(--main-pink);
+          color:#fff;font-size:.8em;padding:2px 8px;border-radius:8px;
+          position:absolute;top:9px;right:14px;box-shadow:0 4px 10px rgba(0,0,0,.12);
+        }
+
+        .side-banner {
+          background: #f5f5ee;
+          border-radius: 18px;
+          padding: 2rem 2.5rem 1rem 2.5rem;
+          box-shadow: 0 12px 28px rgba(255,153,34,0.14);
+          text-align: center;
+          margin-bottom: 2rem;
+          flex: 1 1 340px;
+        }
+        .side-banner .main-offer {font-size:1.34rem;font-weight:900;color:var(--main-orange);}
+        .side-banner .banner-desc {color:#555;margin-bottom:1.2rem;}
+        .side-banner .btn {
+          background: var(--main-orange);
+          color: #fff;
+          border-radius: 18px;
+          font-weight: 700;
+          padding: 0.43rem 1.7rem;
+        }
+
+        /* TESTIMONIAL */
+        .testimonial-section {
+          padding: 2rem 0 1rem 0;
+          background: #fff7ee;
+          border-radius: 16px;
+          margin-bottom:3.5rem;
+          box-shadow:0 10px 26px rgba(97,48,14,0.09);
+          max-width:700px;
+          margin-left:auto;
+          margin-right:auto;
+        }
+        .testimonial-content {
+          display: flex;
+          gap: 2rem;
+          align-items: center;
+          flex-wrap:wrap;
+          justify-content:center;
+        }
+        .testimonial-img {
+          height:80px;
+          border-radius:16px;
+          object-fit:cover;
+          margin-right:1.2rem;
+        }
+        .testimonial-quote {
+          font-size: .99rem;
+          color: #333;
+          font-style: italic;
+        }
+        .testimonial-author {margin-top:.7rem;font-weight:600;color: var(--main-orange);}
+
+        /* FOOTER – keep your wave, add depth & hover polish */
+        .footer-bg {
+          position: relative;
+          background: linear-gradient(135deg, #8fd594 0%, #c8e6c9 100%);
+          color: #204021;
+          padding: 3rem 1rem 2rem 1rem;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          overflow: hidden;
+          box-shadow: inset 0 10px 30px rgba(0,0,0,.06);
+        }
+        .footer-bg::before {
+          content: "";
+          position: absolute;
+          top: -45px;
+          left: 0;
+          width: 100%;
+          height: 70px;
+          z-index: 0;
+          background: url('data:image/svg+xml;utf8,<svg width="100%" height="70px" viewBox="0 0 1200 70" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 C300,60 900,0 1200,40 L1200,0 L0,0 Z" fill="%238fd594"/></svg>') no-repeat top left / cover;
+        }
+        .footer-bg .container { position: relative; z-index: 1; }
+        .footer-bg h4, .footer-bg h5 { color: #184e2b; font-weight: 600; }
+        .footer-bg p, .footer-bg .small { color: #295b32; font-size: 1rem; }
+        .footer-link {
+          color: #388e3c;
+          text-decoration: none;
+          font-weight: 500;
+        }
+        .footer-link:hover { color: #184e2b; text-decoration: underline; }
+        .social-link {
+          color: #388e3c;
+          font-size: 1.35rem;
+          margin-right: 16px;
+          border-radius: 50%;
+          background: #c8e6c9;
+          padding: 8px;
+          transition: background 0.3s, color 0.3s, transform .28s ease;
+          box-shadow: 0 2px 8px rgba(33,100,70,0.08);
+          display: inline-flex; align-items: center; justify-content: center;
+        }
+        .social-link:hover {
+          background: #8fd594;
+          color: #184e2b;
+          transform: translateY(-2px) scale(1.06);
+        }
+        .footer-bg hr {
+          border-color: rgba(32,64,33,0.18);
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        /* RESPONSIVE POLISH */
+        @media (max-width: 992px){
+          .trending-row{ flex-direction: column; gap: 20px; }
+          .side-banner img{ width: 100% !important; height: auto !important; margin-top: 1rem !important; }
+          .hero-banner{ height: 320px; border-radius: 0 0 40px 40px; }
+        }
+        @media (max-width: 576px){
+          .section-header{ font-size: 1.6rem; }
+          .product-grid{ gap: 1rem; }
+          .product-card{ max-width: calc(50% - .5rem); min-width: unset; }
+        }
+
+        /* Additional small helpers for schema mapping */
+        .stock-badge {
+          font-size: 0.8rem;
+          font-weight: 600;
+          padding: 2px 8px;
+          border-radius: 8px;
+          display: inline-block;
+          margin-bottom: 6px;
+        }
+        .stock-in { background: #d4edda; color: #155724; }
+        .stock-out { background: #f8d7da; color: #721c24; }
+        .category-label {
+          font-size: 0.8rem;
+          color: #666;
+          margin-bottom: 6px;
+          display: block;
+        }
+    </style>
+    <script>
+        function scrollToProducts() {
+          document.getElementById('best-seller-products').scrollIntoView({ behavior: 'smooth' });
+        }
+        function addToCart(productName) {
+          const alertDiv = document.createElement('div');
+          alertDiv.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-4';
+          alertDiv.style.zIndex = '2000';
+          alertDiv.innerHTML = '✔️ <b>' + productName + '</b> added to cart!<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+          document.body.appendChild(alertDiv);
+          setTimeout(() => {
+            if (alertDiv) alertDiv.classList.remove('show');
+          }, 2000);
+        }
+    </script>
+</head>
+<body>
+
+<!-- HERO BANNER -->
+<section class="hero-banner mb-5">
+    <!-- Empty content for spacing only -->
+</section>
+
+<!-- INTRO CONTENT -->
+<div class="container text-center mb-5">
+    <h2 class="fw-bold" style="color:var(--main-brown);">Discover Our Pet Essentials</h2>
+    <p style="max-width:800px;margin:0 auto;color:#555;">
+        At <strong>VetPawtner</strong>, we bring together a curated selection of <b>Food, Toys, Care, Grooming, and Treats</b>
+        designed to keep tails wagging and whiskers twitching. From premium nutrition to playful toys and daily care kits,
+        explore our collection to give your pets the love and comfort they deserve.
+    </p>
+</div>
+
+
+<!-- PROMO CARDS -->
+<div class="container promo-row">
+    <div class="promo-card promo-yellow">
+        <img src="prod_2.png" alt="Dog Offer">
+        <div class="promo-title">Get <span style="color:var(--main-orange)">10% Off</span></div>
+        <div class="promo-text">Contrary to popular belief.</div>
+        <button class="btn" onclick="scrollToProducts()">Shop Now</button>
+    </div>
+    <div class="promo-card">
+        <img src="prod_3.png" alt="Dog Foods">
+        <div class="promo-title">Dogs Foods</div>
+        <div class="promo-text">Contrary to popular belief.</div>
+        <button class="btn" onclick="scrollToProducts()">Shop Now</button>
+    </div>
+    <div class="promo-card promo-blue">
+        <img src="prod_4.png" alt="Black Friday">
+        <div class="promo-title">Black Friday</div>
+        <div class="promo-text">Contrary to popular belief.</div>
+        <button class="btn" onclick="scrollToProducts()">Shop Now</button>
+    </div>
+</div>
+
+<!-- BEST SELLER PRODUCTS -->
+<div class="container mb-5" id="best-seller-products">
+    <div class="section-header">
+        Pawfect Favorites
+        <a href="#best-seller-products" onclick="scrollToProducts(); return false;" style="font-size:1rem;float:right;font-weight:400;color:var(--main-orange);margin-top:12px;"></a>
+    </div>
+    <div class="product-grid" id="product-grid">
+        <!-- Product cards will be rendered here from JS using schema fields -->
+    </div>
+</div>
+
+<!-- TRENDING COLLECTION + SIDE BANNERS -->
+<div class="container trending-row mb-4">
+    <div class="trending-section">
+        <div class="trending-header">New Trending Collection</div>
+        <div class="trending-products">
+            <div class="trending-card" style="position:relative;">
+                <img src="prod_16.png" alt="Brown Beans">
+                <div class="new-label">NEW</div>
+                <div class="trending-title">walking gear</div>
+                <div class="trending-price">₹30.50</div>
+                <div class="trending-stars">★★★★★</div>
+            </div>
+            <div class="trending-card" style="position:relative;">
+                <img src="prod_17.png" alt="Unicorn Care">
+                <div class="new-label">NEW</div>
+                <div class="trending-title">brushes</div>
+                <div class="trending-price">₹30.50</div>
+                <div class="trending-stars">★★★★☆</div>
+            </div>
+            <div class="trending-card" style="position:relative;">
+                <img src="prod_18.png" alt="Spectrum">
+                <div class="new-label">NEW</div>
+                <div class="trending-title">flea/tick control</div>
+                <div class="trending-price">₹39.50</div>
+                <div class="trending-stars">★★★☆☆</div>
+            </div>
+            <div class="trending-card" style="position:relative;">
+                <img src="prod_19.png" alt="Pedigree">
+                <div class="new-label">NEW</div>
+                <div class="trending-title">Pedigree Profood's</div>
+                <div class="trending-price">₹30.50</div>
+                <div class="trending-stars">★★★☆☆</div>
+            </div>
+            <div class="trending-card" style="position:relative;">
+                <img src="prod_20.png" alt="Fat Dogs">
+                <div class="new-label">NEW</div>
+                <div class="trending-title">Fat Dogs Food</div>
+                <div class="trending-price">₹32.00</div>
+                <div class="trending-stars">★★☆☆☆</div>
+            </div>
+        </div>
+    </div>
+    <div class="side-banner text-center p-3"
+         style="background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            max-width: 420px;
+            margin: 2rem auto;">
+
+        <h5 style="font-weight: 800;
+               color: #2c2c2c;
+               margin-bottom: 1rem;
+               font-size: 1.4rem;
+               line-height: 1.4;">
+            🐾 Special Dog Care Products –
+            <span style="color:#e67e22; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+            Big Savings Today!
+        </span>
+        </h5>
+
+        <img src="prod_15.png" alt="Dog Offer"
+             style="width:100%;
+                max-width:400px;
+                height:auto;
+                border-radius: 12px;
+                box-shadow: 0 6px 18px rgba(0,0,0,0.15);">
+    </div>
+
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-bg mt-5">
+    <div class="container text-center text-md-start">
+        <div class="row">
+
+            <!-- Brand -->
+            <div class="col-md-4 mb-3">
+                <h4><i class="bi bi-paw"></i> VetPawtner</h4>
+                <p>Happy pets, happy owners.</p>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-md-4 mb-3">
+                <h5>Contact Us</h5>
+                <p>
+                    <i class="bi bi-envelope"></i>
+                    <a href="mailto:support@vetpawtner.com" class="footer-link">support@vetpawtner.com</a><br>
+                    <i class="bi bi-geo-alt"></i> Bangalore, India
+                </p>
+            </div>
+
+            <!-- Social -->
+            <div class="col-md-4 mb-3">
+                <h5>Follow Us</h5>
+                <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="text-center small mt-3">
+            &copy; 2025 <strong>VetPawtner</strong>. All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Product rendering script: uses schema fields to create cards -->
+<script>
+    // Example product array matching schema: product_id, product_name, description, price, stock, category, image_url
+    const products = [
+      { product_id: 1, product_name: "Ainsworth Pet Nutrition", description: "High-quality dog food with balanced nutrition.", price: 30.50, stock: 50, category: "Food", image_url: "prod_5.png", rating: 5 },
+      { product_id: 2, product_name: "Dog Chow For Pets", description: "Nutritious chow for all breeds of dogs.", price: 28.00, stock: 75, category: "Food", image_url: "prod_6.png", rating: 4 },
+      { product_id: 3, product_name: "Hill's Pet Nutrition", description: "Special formula for healthy digestion.", price: 50.20, stock: 0, category: "Food", image_url: "prod_7.png", rating: 3 },
+      { product_id: 4, product_name: "Mars PathCare Toys", description: "Interactive toys for active pets.", price: 79.28, stock: 20, category: "Toys", image_url: "prod_8.png", rating: 3 },
+      { product_id: 5, product_name: "Prolife Pet Foods", description: "Premium pet diet for growth and health.", price: 50.20, stock: 12, category: "Food", image_url: "prod_9.png", rating: 5 },
+      { product_id: 6, product_name: "Nutram Petcare Kit", description: "Complete care kit for your pet.", price: 100.28, stock: 5, category: "Care", image_url: "prod_10.png", rating: 4 },
+      { product_id: 7, product_name: "Diamond Pet Foods - Grooming", description: "Top grooming selection for shiny coats.", price: 30.50, stock: 30, category: "Grooming", image_url: "prod_11.png", rating: 4 },
+      { product_id: 8, product_name: "J M Smucker Biscuits", description: "Tasty biscuits for your pets.", price: 28.00, stock: 40, category: "Treats", image_url: "prod_12.png", rating: 3 },
+      { product_id: 9, product_name: "Natural Balance Pet Foods (Poster)", description: "Balanced nutrition for small breeds.", price: 50.20, stock: 18, category: "Food", image_url: "prod_21.png", rating: 4 },
+      { product_id: 10, product_name: "Gaines-Burgers", description: "Delicious burger treats for pets.", price: 25.28, stock: 7, category: "Treats", image_url: "prod_14.png", rating: 2 },
+      { product_id: 11, product_name: "Natural Balance Pet Foods - Bag", description: "High-value nutrition for daily feeding.", price: 50.20, stock: 22, category: "Food", image_url: "prod_13.png", rating: 3 },
+      { product_id: 12, product_name: "Carriers", description: "Small pack for trial and travel.", price: 25.28, stock: 0, category: "Treats", image_url: "prod_14.png", rating: 2 }
+    ];
+
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.setAttribute('data-product-id', p.product_id);
+
+        // show only product name + price (card view) per your request
+        const isInStock = p.stock && p.stock > 0;
+        const buttonDisabled = isInStock ? '' : 'disabled';
+
+        card.innerHTML = `
+          <img src="${p.image_url}" class="product-img" alt="${escapeHtml(p.product_name)}">
+          <div class="product-title">${escapeHtml(p.product_name)}</div>
+          <div class="product-price">₹${Number(p.price).toFixed(2)}</div>
+          <div style="margin-top:0.6rem;">
+            <button class="btn-cart" ${buttonDisabled} onclick="showProductDetails(${p.product_id})">Explore</button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // small helper to escape HTML injected into innerHTML
+    function escapeHtml(text) {
+      if (!text && text !== 0) return '';
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    // small helper to escape single quotes in inline onclick (kept for compatibility)
+    function escapeForJs(text) {
+      if (!text && text !== 0) return '';
+      return String(text).replaceAll("'", "\\'");
+    }
+
+    // Show product details in a reusable modal
+    function showProductDetails(productId) {
+      const product = products.find(p => p.product_id === productId);
+      if (!product) return;
+
+      // populate modal fields
+      const imgEl = document.getElementById('modalProductImage');
+      const titleEl = document.getElementById('modalProductTitle');
+      const categoryEl = document.getElementById('modalProductCategory');
+      const ratingEl = document.getElementById('modalProductRating');
+      const priceEl = document.getElementById('modalProductPrice');
+      const descEl = document.getElementById('modalProductDescription');
+      const stockEl = document.getElementById('modalProductStock');
+
+      imgEl.src = product.image_url;
+      imgEl.alt = product.product_name;
+      titleEl.textContent = product.product_name;
+      categoryEl.textContent = product.category;
+      const stars = '★'.repeat(Math.round(product.rating)) + '☆'.repeat(5 - Math.round(product.rating));
+      ratingEl.textContent = `${stars} (${Math.round(product.rating)} Reviews)`;
+      priceEl.textContent = `₹${Number(product.price).toFixed(2)}`;
+      descEl.textContent = product.description;
+      stockEl.innerHTML = (product.stock && product.stock > 0) ? `<span class="stock-badge stock-in">In Stock (${product.stock})</span>` : `<span class="stock-badge stock-out">Out of Stock</span>`;
+
+      // wire modal buttons
+      const addBtn = document.getElementById('modalAddToCartBtn');
+      const orderBtn = document.getElementById('modalOrderNowBtn');
+
+      // set click behavior: add to cart uses existing addToCart(productName)
+      addBtn.onclick = function() {
+        addToCart(product.product_name);
+        const m = bootstrap.Modal.getInstance(document.getElementById('productDetailModal'));
+        if (m) m.hide();
+      };
+
+     // orderBtn.onclick = function() {
+       // orderNow(product.product_id);
+      //};
+
+
+     orderBtn.onclick = function() {
+    // Redirect to order page with product ID in URL
+    window.location.href = `Order2.html?productId=${product.product_id}`;
+};
+
+      // show modal
+      const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+      modal.show();
+    }
+
+    // Simple Order Now simulation (you can integrate real checkout later)
+    function orderNow(productId) {
+      const product = products.find(p => p.product_id === productId);
+      if (!product) return;
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert alert-primary alert-dismissible fade show position-fixed top-0 end-0 m-4';
+      alertDiv.style.zIndex = '2000';
+      alertDiv.innerHTML = '🛒 <b>' + product.product_name + '</b> ordered! Our team will contact you. <button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+      document.body.appendChild(alertDiv);
+      setTimeout(() => {
+        if (alertDiv) alertDiv.classList.remove('show');
+      }, 2500);
+      const m = bootstrap.Modal.getInstance(document.getElementById('productDetailModal'));
+      if (m) m.hide();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderProducts();
+    });
+</script>
+
+<!-- Product Detail Modal (reusable) -->
+<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productDetailModalLabel"><span id="modalProductTitle">Product</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 align-items-start">
+                    <div class="col-md-6 text-center">
+                        <img id="modalProductImage" src="prod_5.png" alt="product" class="img-fluid rounded" style="max-height:360px; object-fit:contain;">
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-bottom:0.5rem;"><strong>Category:</strong> <span id="modalProductCategory"></span></div>
+                        <div style="margin-bottom:0.5rem;"><strong>Rating:</strong> <span id="modalProductRating"></span></div>
+                        <div style="margin-bottom:0.5rem;"><strong>Price:</strong> <span id="modalProductPrice"></span></div>
+                        <div id="modalProductStock" style="margin-bottom:0.8rem;"></div>
+                        <p id="modalProductDescription" class="mb-3" style="color:#555;"></p>
+
+                        <div class="d-flex gap-2">
+                            <button id="modalAddToCartBtn" class="btn-cart">Add to Cart</button>
+                            <button id="modalOrderNowBtn" class="btn btn-success">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <small class="text-muted">Close to continue browsing</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

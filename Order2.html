@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f8f8; font-family: 'Segoe UI', sans-serif; }
+        .order-container { max-width: 500px; margin: 4rem auto; background: #fff; padding: 2rem; border-radius: 18px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+        .btn-pay { background: linear-gradient(90deg, #ff6b35, #ff9472); color:#fff; border:none; font-weight:700; padding:0.5rem 1.5rem; border-radius:16px; }
+        .btn-pay:hover { filter: brightness(1.05); }
+        .popup { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:2000; display:none; }
+        .popup-content { background:#fff; padding:2rem; border-radius:16px; width:90%; max-width:400px; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.2); }
+        .popup-content h5 { margin-bottom:1rem; font-weight:700; }
+        .popup-content button { margin-top:1rem; margin-right:0.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="order-container">
+    <h3>Order Summary</h3>
+    <div class="mb-2"><strong>Product:</strong> <span id="orderProductName"></span></div>
+    <div class="mb-2"><strong>Price:</strong> ₹<span id="orderProductPrice"></span></div>
+    <div class="mb-2"><strong>Quantity:</strong> <input type="number" id="orderQuantity" value="1" min="1" class="form-control" style="width:100px;"></div>
+    <div class="mb-3"><strong>Total:</strong> ₹<span id="orderTotal"></span></div>
+    <button class="btn-pay" id="continuePaymentBtn">Continue to Payment</button>
+</div>
+
+<!-- Razorpay-style simulated popup -->
+<div class="popup" id="paymentPopup">
+    <div class="popup-content">
+        <h5>Payment</h5>
+        <p><strong>Product:</strong> <span id="popupProductName"></span></p>
+        <p><strong>Amount:</strong> ₹<span id="popupTotal"></span></p>
+        <button class="btn btn-success" id="payNowBtn">Pay Now</button>
+        <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+    </div>
+</div>
+
+<script>
+    // Products array (copy from main page)
+    const products = [
+      { product_id: 1, product_name: "Ainsworth Pet Nutrition", price: 30.50 },
+      { product_id: 2, product_name: "Dog Chow For Pets", price: 28.00 },
+      { product_id: 3, product_name: "Hill's Pet Nutrition", price: 50.20 },
+      { product_id: 4, product_name: "Mars PathCare Toys", price: 79.28 },
+      { product_id: 5, product_name: "Prolife Pet Foods", price: 50.20 },
+      { product_id: 6, product_name: "Nutram Petcare Kit", price: 100.28 },
+      { product_id: 7, product_name: "Diamond Pet Foods - Grooming", price: 30.50 },
+      { product_id: 8, product_name: "J M Smucker Biscuits", price: 28.00 },
+      { product_id: 9, product_name: "Natural Balance Pet Foods (Poster)", price: 50.20 },
+      { product_id: 10, product_name: "Gaines-Burgers", price: 25.28 },
+      { product_id: 11, product_name: "Natural Balance Pet Foods - Bag", price: 50.20 },
+      { product_id: 12, product_name: "Carriers", price: 25.28 }
+    ];
+
+    // Get productId from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = Number(urlParams.get('productId'));
+    const product = products.find(p => p.product_id === productId);
+
+    if (!product) {
+        alert("Product not found!");
+        window.location.href = "product1.html"; // redirect back to home
+    }
+
+    const productNameEl = document.getElementById('orderProductName');
+    const productPriceEl = document.getElementById('orderProductPrice');
+    const quantityInput = document.getElementById('orderQuantity');
+    const totalEl = document.getElementById('orderTotal');
+
+    productNameEl.textContent = product.product_name;
+    productPriceEl.textContent = product.price.toFixed(2);
+    totalEl.textContent = product.price.toFixed(2);
+
+    // Update total when quantity changes
+    quantityInput.addEventListener('input', () => {
+        let qty = Number(quantityInput.value);
+        if (qty < 1) quantityInput.value = 1;
+        totalEl.textContent = (product.price * Number(quantityInput.value)).toFixed(2);
+    });
+
+    const popup = document.getElementById('paymentPopup');
+    const popupProductName = document.getElementById('popupProductName');
+    const popupTotal = document.getElementById('popupTotal');
+
+    document.getElementById('continuePaymentBtn').onclick = () => {
+        popupProductName.textContent = product.product_name;
+        popupTotal.textContent = (product.price * Number(quantityInput.value)).toFixed(2);
+        popup.style.display = 'flex';
+    };
+
+    document.getElementById('cancelBtn').onclick = () => { popup.style.display = 'none'; };
+
+    document.getElementById('payNowBtn').onclick = () => {
+        alert('Payment Successful! Thank you for your order.');
+        popup.style.display = 'none';
+        window.location.href = 'userpage.html'; // go back to home or orders page
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

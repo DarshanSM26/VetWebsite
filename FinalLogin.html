@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - VetPawtner</title>
+    <style>
+        body { font-family: Arial, sans-serif; background:#f7f7f7; display:flex; justify-content:center; align-items:center; height:100vh; }
+        .form-container { background:white; padding:25px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:350px; }
+        h2 { text-align:center; color:#333; }
+        input, button { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; }
+        button { background:#007bff; color:white; border:none; cursor:pointer; font-weight:bold; }
+        button:hover { background:#0056b3; }
+        .link { text-align:center; margin-top:10px; }
+        .link a { color:#007bff; text-decoration:none; }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>User Login</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
+    <div class="link">
+        Don’t have an account? <a href="FinalRegister.html">Register</a>
+    </div>
+    <p id="message" style="color:red;text-align:center;"></p>
+</div>
+
+<script>
+    const LOGIN_URL = "http://localhost:8080/api/user/login";
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const credentials = {
+        username: document.getElementById("username").value,  // ✅ must match backend
+        password: document.getElementById("password").value
+      };
+
+      try {
+        const res = await fetch(LOGIN_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem("user", JSON.stringify(data)); // save session
+
+          alert("✅ Login successful! Welcome " + data.username);
+
+          // Role-based redirect
+          if (data.role === "user") window.location.href = "userpage.html";
+          else if (data.role === "vet") window.location.href = "FinalVetpage.html";
+          else if (data.role === "admin") window.location.href = "FinalAdminpage.html";
+          else window.location.href = "index.html";
+        } else {
+          const msg = await res.text();
+          document.getElementById("message").innerText = "❌ " + msg;
+        }
+      } catch (error) {
+        document.getElementById("message").innerText = "⚠️ Error: " + error.message;
+      }
+    });
+</script>
+</body>
+</html>

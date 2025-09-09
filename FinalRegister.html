@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - VetPawtner</title>
+    <style>
+        body { font-family: Arial, sans-serif; background:#f7f7f7; display:flex; justify-content:center; align-items:center; height:100vh; }
+        .form-container { background:white; padding:25px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); width:350px; }
+        h2 { text-align:center; color:#333; }
+        input, select, button { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; }
+        button { background:#007bff; color:white; border:none; cursor:pointer; font-weight:bold; }
+        button:hover { background:#0056b3; }
+        .link { text-align:center; margin-top:10px; }
+        .link a { color:#007bff; text-decoration:none; }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>User Registration</h2>
+    <form id="registerForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <input type="text" id="userphone" placeholder="Phone" />
+        <input type="text" id="useraddress" placeholder="Address" />
+        <select id="role">
+            <option value="user">User</option>
+            <option value="vet">Vet</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+    <div class="link">
+        Already have an account? <a href="FinalLogin.html">Login</a>
+    </div>
+    <p id="message" style="color:red;text-align:center;"></p>
+</div>
+
+<script>
+    const REGISTER_URL = "http://localhost:8080/api/user/register"; // ✅ Adjust if needed
+
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const user = {
+        username: document.getElementById("username").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        userphone: document.getElementById("userphone").value,
+        useraddress: document.getElementById("useraddress").value,
+        role: document.getElementById("role").value
+      };
+
+      try {
+        const res = await fetch(REGISTER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user)
+        });
+
+        if (res.ok) {
+          alert("✅ Registered successfully! Please login.");
+          window.location.href = "FinalRegister.html";
+        } else {
+          const msg = await res.text();
+          document.getElementById("message").innerText = "❌ " + msg;
+        }
+      } catch (error) {
+        document.getElementById("message").innerText = "⚠️ Error: " + error.message;
+      }
+    });
+</script>
+</body>
+</html>
